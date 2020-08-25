@@ -25,7 +25,7 @@
 				<a href="#" class="navbar-brand"><img src="resources/img/logo.png" height="128px" width="128px"></a>
 			</div>
 
-			<!-- MENU LINKS -->
+			<!-- MENU LINKS  teste-->
 			<div class="collapse navbar-collapse">
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="acessopermitido.jsp" class="smoothScroll">Home</a></li>
