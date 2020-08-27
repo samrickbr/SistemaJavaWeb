@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import beans.BeanCursoJsp;
+import beans.BeanUsuarioJsp;
 import dao.DaoUsuario;
 
 /**
@@ -60,9 +60,9 @@ public class Usuario extends HttpServlet {
 			}
 			// -----------------------------------------------------------------------
 		} else if (acao.equals("editar")) {
-			BeanCursoJsp beanCursoJsp;
+			BeanUsuarioJsp beanUsuarioJsp;
 			try {
-				beanCursoJsp = daoUsuario.consultar(user);
+				beanUsuarioJsp = daoUsuario.consultar(user);
 
 				// redirecionar para a página com a tabela dos cadastros
 
@@ -72,7 +72,7 @@ public class Usuario extends HttpServlet {
 						.getRequestDispatcher("/cadastroUsuario.jsp");
 				// atributos da requisição = usuarios (está setando os atributos que vem do daoUsuario
 				//para a page cadastroUsuario no paranmetro "item" da tabela  
-				request.setAttribute("user", beanCursoJsp);
+				request.setAttribute("user", beanUsuarioJsp);
 				// redirecionamento:
 				view.forward(request, response);
 
@@ -137,6 +137,11 @@ public class Usuario extends HttpServlet {
 			String senha = request.getParameter("senha");
 			String nome = request.getParameter("nome");
 			String fone = request.getParameter("fone");
+			String cep = request.getParameter("cep");
+			String rua = request.getParameter("rua");
+			String bairro = request.getParameter("bairro");
+			String cidade = request.getParameter("cidade");
+			String uf = request.getParameter("uf");
 			
 			try {
 				StringBuilder msg = new StringBuilder();
@@ -156,7 +161,7 @@ public class Usuario extends HttpServlet {
 				}
 								
 				// criar o objeto usuario com login e senha
-				BeanCursoJsp usuario = new BeanCursoJsp();
+				BeanUsuarioJsp usuario = new BeanUsuarioJsp();
 				
 				
 				if (podeValidar) {
@@ -165,6 +170,11 @@ public class Usuario extends HttpServlet {
 					usuario.setSenha(senha);
 					usuario.setNome(nome);
 					usuario.setFone(fone);
+					usuario.setCep(cep);
+					usuario.setRua(rua);
+					usuario.setBairro(bairro);
+					usuario.setCidade(cidade);
+					usuario.setUf(uf);
 				}
 				
 

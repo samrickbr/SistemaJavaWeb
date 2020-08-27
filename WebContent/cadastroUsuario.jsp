@@ -82,7 +82,7 @@
 						<div class="col-md-6 col-sm-6">
 							<label for="cep" class="label label-default">CEP:</label> <input
 								type="text" class="form-control" id="cep" name="cep"
-								value="${user.cep}" placeholder="Cep" onblur="consultaCep();">
+								value="${user.cep}" placeholder="Cep Ex. 12345678" onblur="consultaCep();">
 						</div>
 						<div class="col-md-6 col-sm-6">
 							<label for="rua" class="label label-default">RUA:</label> <input
@@ -187,10 +187,10 @@
 			}
 
 			//------------------------------------------------------------
-			
+
 			/*
-			*Consulta de CEP através do webservice viacep.com.br
-			*/
+			 *Consulta de CEP através do webservice viacep.com.br
+			 */
 			function limpa_formulário_cep() {
 				// Limpa valores do formulário de cep.
 				$("#cep").val("");

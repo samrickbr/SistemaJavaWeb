@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import beans.BeanCursoJsp;
+import beans.BeanUsuarioJsp;
 import connection.SingleConnection;
 
 public class DaoUsuario {
@@ -19,16 +19,21 @@ public class DaoUsuario {
 	}
 
 	// =============================================================
-	public void salvar(BeanCursoJsp usuario) {
+	public void salvar(BeanUsuarioJsp usuario) {
 		// insert dos dados no DB
 
 		try {
-			String sql = "insert into usuario(login, senha, nome, fone) values (?, ?, ?, ?)";
+			String sql = "insert into usuario(login, senha, nome, fone, cep, rua, bairro, cidade, uf) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement insert = connection.prepareStatement(sql);
 			insert.setString(1, usuario.getLogin());
 			insert.setString(2, usuario.getSenha());
 			insert.setString(3, usuario.getNome());
 			insert.setString(4, usuario.getFone());
+			insert.setString(5, usuario.getCep());
+			insert.setString(6, usuario.getRua());
+			insert.setString(7, usuario.getBairro());
+			insert.setString(8, usuario.getCidade());
+			insert.setString(9, usuario.getUf());
 			insert.execute();
 
 			// ocorrendo tudo certo com a inserção a operação é commitada
@@ -48,9 +53,9 @@ public class DaoUsuario {
 
 	// =============================================================
 	// método para listar todos os usuários cadastrados
-	public List<BeanCursoJsp> listar() throws Exception {
+	public List<BeanUsuarioJsp> listar() throws Exception {
 		// criar um novo objeto de lista
-		List<BeanCursoJsp> listar = new ArrayList<BeanCursoJsp>();
+		List<BeanUsuarioJsp> listar = new ArrayList<BeanUsuarioJsp>();
 
 		String sql = "select * from usuario";
 
@@ -60,12 +65,17 @@ public class DaoUsuario {
 		// criar a listagem com while enquanto houver usuarios
 		while (resultSet.next()) {
 
-			BeanCursoJsp usuario = new BeanCursoJsp();
+			BeanUsuarioJsp usuario = new BeanUsuarioJsp();
 			usuario.setId(resultSet.getLong("id"));
 			usuario.setLogin(resultSet.getString("login"));
 			usuario.setSenha(resultSet.getString("senha"));
 			usuario.setNome(resultSet.getString("nome"));
 			usuario.setFone(resultSet.getString("fone"));
+			usuario.setCep(resultSet.getString("cep"));
+			usuario.setRua(resultSet.getString("rua"));
+			usuario.setBairro(resultSet.getString("bairro"));
+			usuario.setCidade(resultSet.getString("cidade"));
+			usuario.setUf(resultSet.getString("uf"));
 
 			listar.add(usuario);
 		}
@@ -93,16 +103,22 @@ public class DaoUsuario {
 	}
 
 	// =============================================================
-	public void edit(BeanCursoJsp usuario) {
+	public void edit(BeanUsuarioJsp usuario) {
 		try {
 
-			String sql = "update usuario set login = ?, senha = ?, nome = ?, fone = ? where id = "
+			String sql = "update usuario set login = ?, senha = ?, nome = ?, fone = ?, "
+					+ "cep = ?, rua = ?, bairro = ?, cidade = ?, uf = ? where id = "
 					+ usuario.getId();
 			PreparedStatement update = connection.prepareStatement(sql);
 			update.setString(1, usuario.getLogin());
 			update.setString(2, usuario.getSenha());
 			update.setString(3, usuario.getNome());
 			update.setString(4, usuario.getFone());
+			update.setString(5, usuario.getCep());
+			update.setString(6, usuario.getRua());
+			update.setString(7, usuario.getBairro());
+			update.setString(8, usuario.getCidade());
+			update.setString(9, usuario.getUf());
 
 			update.executeUpdate();
 
@@ -119,19 +135,24 @@ public class DaoUsuario {
 	}
 
 	// =============================================================
-	public BeanCursoJsp consultar(String id) throws Exception {
+	public BeanUsuarioJsp consultar(String id) throws Exception {
 		String sql = "select * from usuario where id = '" + id + "' ";
 		PreparedStatement preparedStatement = connection.prepareStatement(sql);
 		ResultSet resultSet = preparedStatement.executeQuery();
 
 		if (resultSet.next()) {
-			BeanCursoJsp usuario = new BeanCursoJsp();
+			BeanUsuarioJsp usuario = new BeanUsuarioJsp();
 
 			usuario.setId(resultSet.getLong("id"));
 			usuario.setLogin(resultSet.getString("login"));
 			usuario.setSenha(resultSet.getString("senha"));
 			usuario.setNome(resultSet.getString("nome"));
 			usuario.setFone(resultSet.getString("fone"));
+			usuario.setCep(resultSet.getString("cep"));
+			usuario.setRua(resultSet.getString("rua"));
+			usuario.setBairro(resultSet.getString("bairro"));
+			usuario.setCidade(resultSet.getString("cidade"));
+			usuario.setUf(resultSet.getString("uf"));
 
 			return usuario;
 
