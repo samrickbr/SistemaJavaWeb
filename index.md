@@ -35,12 +35,17 @@ Having trouble with Pages? Check out our [documentation](https://docs.github.com
 -->
 
 ### PRIMEIRAS PÁGINAS
-Criação do projeto, index, e construção da página de login.
-Criação do Db com a tabela usuario, inserido pagina de cadastro de usuario.
-Alteração do db, inserido tabela produto, criado página de cadastro de produto, cunsulta de usuário, servlet, DAO e Bean.
-Estilizado o sistema com tema da Booststrap.
+Criação do projeto, index, e construção da página de login. 
+
+Criação do Db com a tabela usuario, inserido pagina de cadastro de usuario. 
+
+Alteração do db, inserido tabela produto, criado página de cadastro de produto, cunsulta de usuário, servlet, DAO e Bean.      
+
+Estilizado o sistema com tema da Booststrap. 
 
 ###  Agosto/2020
 Inserido campos de cep e configurado a consulta da API VIACEP.
+
 Alterado a página de cadastro com os campos de CEP, RUA, BAIRRO, CIDADE e ESTADO.
+  
 27/08 - Alterado o DB e inserido os novos campos,  na pg de cadastro e consulta de usuário, alterado a servlet, dao e bean para cadastro os campos no db.
