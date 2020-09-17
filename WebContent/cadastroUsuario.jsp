@@ -44,7 +44,8 @@
 
 					<form action="salvarUsuario" method="POST" id="formUser"
 						class="material-form" id="quoteForm"
-						onsubmit="return validarCampos()? true:false;">
+						onsubmit="return validarCampos()? true:false;"
+						enctype="multipart/form-data">
 						<h2 style="color: white; font-weight: 200;">Dados de
 							cadastro:</h2>
 
@@ -62,9 +63,9 @@
 						</div>
 
 						<div class="col-md-6 col-sm-6">
-							<label for="fone" class="label label-default">TELEFONE:</label> <input
-								type="text" class="form-control" id="fone" name="fone"
-								value="${user.fone}" placeholder="Telefone">
+							<label for="email" class="label label-default">E-MAIL:</label> <input
+								type="text" class="form-control" id="email" name="email"
+								value="${user.email}" placeholder="E-mail">
 						</div>
 						<br /> <br /> <br />
 						<div class="col-md-6 col-sm-6">
@@ -82,8 +83,10 @@
 						<div class="col-md-6 col-sm-6">
 							<label for="cep" class="label label-default">CEP:</label> <input
 								type="text" class="form-control" id="cep" name="cep"
-								value="${user.cep}" placeholder="Cep Ex. 12345678" onblur="consultaCep();">
+								value="${user.cep}" placeholder="Cep Ex. 12345678"
+								onblur="consultaCep();">
 						</div>
+
 						<div class="col-md-6 col-sm-6">
 							<label for="rua" class="label label-default">RUA:</label> <input
 								title="text" class="form-control" id="rua" name="rua"
@@ -97,14 +100,18 @@
 						</div>
 						<div class="col-md-6 col-sm-6">
 							<label for="cidade" class="label label-default">CIDADE:</label> <input
-								title="text" class="form-control" id="cidade" name="cidade"
+								type="text" class="form-control" id="cidade" name="cidade"
 								value="${user.cidade}" placeholder="Cidade">
 						</div>
 						<br /> <br /> <br />
 						<div class="col-md-6 col-sm-6">
 							<label for="uf" class="label label-default">ESTADO:</label> <input
-								title="text" class="form-control" id="uf" name="uf"
+								type="text" class="form-control" id="uf" name="uf"
 								value="${user.uf}" placeholder="Estado">
+						</div>
+						<div class="col-md-6 col-sm-6">
+							<label for="foto" class="label label-default">FOTO:</label> <input
+								type="file" class="form-control" id="foto" name="foto">
 						</div>
 						<br /> <br /> <br />
 
@@ -123,7 +130,7 @@
 							<div class="section-btn">
 								<button type="submit" class="form-control" id="cancelar"
 									name="cancelar"
-									onclick="document.getElementById('formUser').action = 'salvarUsuario?acao=reset'">
+									onclick="document.getElementById('formUser').action='salvarUsuario?acao=reset'">
 									<span data-hover="Cancelar" style="width: 100%">Cancelar</span>
 								</button>
 							</div>
@@ -137,18 +144,20 @@
 									<thead>
 										<tr>
 											<th style="text-align: center;">ID</th>
-											<th style="text-align: center;">NOME</th>
-											<th style="text-align: center;">TELEFONE</th>
 											<th style="text-align: center;">LOGIN</th>
-											<th colspan="2" style="text-align: center;">OPÇÕES</th>
+											<th style="text-align: center;">NOME</th>
+											<th style="text-align: center;">E-MAIL</th>
+											<th colspan="3" style="text-align: center;">OPÇÕES</th>
 										</tr>
 									</thead>
 									<c:forEach items="${usuarios}" var="user">
 										<tr align="center">
 											<td style="width: 50px"><c:out value="${user.id}"></c:out></td>
-											<td style="width: 100px"><c:out value="${user.nome}"></c:out></td>
-											<td style="width: 100px"><c:out value="${user.fone}"></c:out></td>
 											<td style="width: 100px"><c:out value="${user.login}"></c:out></td>
+											<td style="width: 100px"><c:out value="${user.nome}"></c:out></td>
+											<td style="width: 100px"><img
+												src='<c:out value="${user.tempFotoUser}"></c:out>'
+												width="32px" height="32px"></td>
 
 											<td style="width: 50px"><a
 												href="salvarUsuario?acao=delete&user=${user.id}"><img
@@ -158,6 +167,10 @@
 												href="salvarUsuario?acao=editar&user=${user.id}"><img
 													width="20px" height="20px" alt="Editar" title="Editar"
 													src="resources/img/editar.png"> </a></td>
+											<td style="width: 50px"><a
+												href="salvarTelefones?acao=addFone&user=${user.id}"><img
+													width="20px" height="20px" alt="Telefones"
+													title="Telefones" src="resources/img/phone.png"> </a></td>
 										</tr>
 									</c:forEach>
 								</table>

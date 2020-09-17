@@ -31,56 +31,69 @@
 	<!-- HOME -->
 	<section id="home" class="parallax-section">
 	<div class="overlay"></div>
-		<div class="container">
-			<div class="row" >
-				<div class="col-md-offset-1 col-md-10 col-sm-12" >
-					<div class="table-header-group" align="center">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-offset-1 col-md-10 col-sm-12">
+				<div class="table-header-group" align="center">
 
-						<form action="salvarUsuario" method="post"
-							style="background-color: white; border-style: double;">
-							<h2>Lista de usuários cadastrados:</h2>
-							<p />
-							<table class="dataTable">
+					<form action="salvarUsuario" method="post"
+						style="background-color: white; border-style: double;">
+						<h2>Lista de usuários cadastrados:</h2>
+						<p />
+						<table class="dataTable">
 
-								<thead>
-									<tr>
-										<th style="text-align: center;">ID</th>
-										<th style="text-align: center;">NOME</th>
-										<th style="text-align: center;">TELEFONE</th>
-										<th style="text-align: center;">LOGIN</th>
-										<th style="text-align: center;">CEP</th>
-										<th style="text-align: center;">RUA</th>
-										<th style="text-align: center;">BAIRRO</th>
-										<th style="text-align: center;">CIDADE</th>
-										<th style="text-align: center;">ESTADO</th>
-										<th colspan="2" style="text-align: center;">OPÇÕES</th>
-									</tr>
-								</thead>
-								<c:forEach items="${usuarios}" var="user">
-									<tr>
-										<td style="width: 50px;text-align: center;"><c:out value="${user.id}"></c:out></td>
-										<td style="width: 200px;text-align: center;"><c:out value="${user.nome}"></c:out></td>
-										<td style="width: 200px;text-align: center;"><c:out value="${user.fone}"></c:out></td>
-										<td style="width: 200px;text-align: center;"><c:out value="${user.login}"></c:out></td>
-										<td style="width: 100px;text-align: center;"><c:out value="${user.cep}"></c:out></td>
-										<td style="width: 300px;text-align: center;"><c:out value="${user.rua}"></c:out></td>
-										<td style="width: 200px;text-align: center;"><c:out value="${user.bairro}"></c:out></td>
-										<td style="width: 300px;text-align: center;"><c:out value="${user.cidade}"></c:out></td>
-										<td style="width: 100px;text-align: center;"><c:out value="${user.uf}"></c:out></td>
+							<thead>
+								<tr>
+									<th style="text-align: center;">ID</th>
+									<th style="text-align: center;">NOME</th>
+									<th style="text-align: center;">E-MAIL</th>
+									<th style="text-align: center;">LOGIN</th>
+									<th style="text-align: center;">CEP</th>
+									<th style="text-align: center;">RUA</th>
+									<th style="text-align: center;">BAIRRO</th>
+									<th style="text-align: center;">CIDADE</th>
+									<th style="text-align: center;">ESTADO</th>
+									<th colspan="3" style="text-align: center;">OPÇÕES</th>
+								</tr>
+							</thead>
+							<c:forEach items="${usuarios}" var="user">
+								<tr>
+									<td style="width: 50px; text-align: center;"><c:out
+											value="${user.id}"></c:out></td>
+									<td style="width: 200px; text-align: center;"><c:out
+											value="${user.nome}"></c:out></td>
+									<td style="width: 200px; text-align: center;"><c:out
+											value="${user.email}"></c:out></td>
+									<td style="width: 200px; text-align: center;"><c:out
+											value="${user.login}"></c:out></td>
+									<td style="width: 100px; text-align: center;"><c:out
+											value="${user.cep}"></c:out></td>
+									<td style="width: 300px; text-align: center;"><c:out
+											value="${user.rua}"></c:out></td>
+									<td style="width: 200px; text-align: center;"><c:out
+											value="${user.bairro}"></c:out></td>
+									<td style="width: 300px; text-align: center;"><c:out
+											value="${user.cidade}"></c:out></td>
+									<td style="width: 100px; text-align: center;"><c:out
+											value="${user.uf}"></c:out></td>
 
-										<td style="width: 50px;text-align: center;"><a
-											href="salvarUsuario?acao=delete&user=${user.id}"><img
-												width="20px" height="20px" alt="Excluir" title="Excluir"
-												src="resources/img/excluir.png"></a></td>
-										<td style="width: 50px;text-align: center;"><a
-											href="salvarUsuario?acao=editar&user=${user.id}"><img
-												width="20px" height="20px" alt="Editar" title="Editar"
-												src="resources/img/editar.png"> </a></td>
-									</tr>
-								</c:forEach>
-							</table>
-						</form>
-					</div>
+									<td style="width: 50px; text-align: center;"><a
+										href="salvarUsuario?acao=delete&user=${user.id}"><img
+											width="20px" height="20px" alt="Excluir" title="Excluir"
+											src="resources/img/excluir.png"></a></td>
+									<td style="width: 50px; text-align: center;"><a
+										href="salvarUsuario?acao=editar&user=${user.id}"><img
+											width="20px" height="20px" alt="Editar" title="Editar"
+											src="resources/img/editar.png"> </a></td>
+									<td style="width: 50px"><a
+										href="salvarTelefones?acao=addFone&user=${user.id}"><img width="20px"
+											height="20px" alt="Telefones" title="Telefones"
+											src="resources/img/phone.png"> </a></td>
+								</tr>
+							</c:forEach>
+						</table>
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>

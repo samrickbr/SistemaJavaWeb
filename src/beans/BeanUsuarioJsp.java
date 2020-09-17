@@ -6,12 +6,38 @@ public class BeanUsuarioJsp {
 	private String senha;
 	private String nome;
 	private Long id;
-	private String fone;
+	private String email;
 	private String cep;
 	private String rua;
 	private String bairro;
 	private String cidade;
 	private String uf;
+	private String fotoBase64;
+	private String contentType;
+	private String tempFotoUser;
+
+	public String getTempFotoUser() {
+	
+		tempFotoUser = "data:" + contentType + ";base64," + fotoBase64; 
+		
+		return tempFotoUser;
+	}
+
+	public void setFotoBase64(String fotoBase64) {
+		this.fotoBase64 = fotoBase64;
+	}
+
+	public String getFotoBase64() {
+		return fotoBase64;
+	}
+
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
+	}
+
+	public String getContentType() {
+		return contentType;
+	}
 
 	public String getCep() {
 		return cep;
@@ -53,12 +79,12 @@ public class BeanUsuarioJsp {
 		this.uf = uf;
 	}
 
-	public String getFone() {
-		return fone;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setFone(String fone) {
-		this.fone = fone;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public void setNome(String nome) {

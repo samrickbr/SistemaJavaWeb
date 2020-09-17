@@ -1,22 +1,34 @@
 package servlets;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.tomcat.util.codec.binary.Base64;
 
 import beans.BeanUsuarioJsp;
 import dao.DaoUsuario;
 
 /**
  * Servlet implementation class Usuario
- *
+ * 
  */
 @WebServlet("/salvarUsuario")
+@MultipartConfig
 public class Usuario extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -48,8 +60,9 @@ public class Usuario extends HttpServlet {
 
 				RequestDispatcher view = request
 						.getRequestDispatcher("/cadastroUsuario.jsp");
-				// atributos da requisição = usuarios (está setando os atributos que vem do daoUsuario
-				//para a page cadastroUsuario no paranmetro "item" da tabela  
+				// atributos da requisição = usuarios (está setando os atributos
+				// que vem do daoUsuario
+				// para a page cadastroUsuario no paranmetro "item" da tabela
 				request.setAttribute("usuarios", daoUsuario.listar());
 				// redirecionamento:
 				view.forward(request, response);
@@ -70,8 +83,9 @@ public class Usuario extends HttpServlet {
 				// usuários
 				RequestDispatcher view = request
 						.getRequestDispatcher("/cadastroUsuario.jsp");
-				// atributos da requisição = usuarios (está setando os atributos que vem do daoUsuario
-				//para a page cadastroUsuario no paranmetro "item" da tabela  
+				// atributos da requisição = usuarios (está setando os atributos
+				// que vem do daoUsuario
+				// para a page cadastroUsuario no paranmetro "item" da tabela
 				request.setAttribute("user", beanUsuarioJsp);
 				// redirecionamento:
 				view.forward(request, response);
@@ -80,11 +94,50 @@ public class Usuario extends HttpServlet {
 				e.printStackTrace();
 			}
 			// -----------------------------------------------------------------------
+		} else if (acao.equals("telefone")) {
+			BeanUsuarioJsp beanUsuarioJsp;
+			try {
+				beanUsuarioJsp = daoUsuario.consultar(user);
+
+				// redirecionar para a página com a tabela dos cadastros
+
+				// criar um dispatcher para setar a variável e listar os
+				// usuários
+				RequestDispatcher view = request
+						.getRequestDispatcher("/telefones.jsp");
+				// atributos da requisição = usuarios (está setando os atributos
+				// que vem do daoUsuario
+				// para a page cadastroUsuario no paranmetro "item" da tabela
+				request.setAttribute("user", beanUsuarioJsp);
+				// redirecionamento:
+				view.forward(request, response);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			// -----------------------------------------------------------------------
+		} else if (acao != null && acao.equalsIgnoreCase("reset")) {
+			try {
+				// criar um dispatcher para setar a variável e listar os
+				// usuários
+				RequestDispatcher view = request
+						.getRequestDispatcher("/cadastroUsuario.jsp");
+				// atributos da requisição = usuarios (está setando os atributos
+				// que vem do daoUsuario
+				// para a page cadastroUsuario no parametro "item" da tabela
+				request.setAttribute("usuarios", daoUsuario.listar());
+				// redirecionamento:
+				view.forward(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			// -----------------------------------------------------------------------
 		} else if (acao.equalsIgnoreCase("listartodos")) {
 			RequestDispatcher view = request
 					.getRequestDispatcher("/cadastroUsuario.jsp");
-			// atributos da requisição = usuarios (está setando os atributos que vem do daoUsuario
-			//para a page cadastroUsuario no paranmetro "item" da tabela  
+			// atributos da requisição = usuarios (está setando os atributos que
+			// vem do daoUsuario
+			// para a page cadastroUsuario no parametro "item" da tabela
 			try {
 				request.setAttribute("usuarios", daoUsuario.listar());
 			} catch (Exception e) {
@@ -104,6 +157,25 @@ public class Usuario extends HttpServlet {
 			}
 			// redirecionamento:
 			view.forward(request, response);
+		} else if (acao.equalsIgnoreCase("download")) {
+			BeanUsuarioJsp usuario;
+			try {
+				usuario = daoUsuario.consultar(user);
+				if (usuario != null) {
+					response.setHeader("Content-Disposition",
+							"attachament;arquivo."
+									+ usuario.getContentType().split("\\/")[1]);
+					
+					/** Converte a base64 da imagem do banco para byte[]*/
+					byte[] imageFotoBytes = new Base64().decodeBase64(usuario.getFotoBase64());
+
+					/** Coloca os bytes em um objeto de entrada para processar*/
+					InputStream id = new ByteArrayInputStream(imageFotoBytes);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
 		}
 	}
 
@@ -120,8 +192,9 @@ public class Usuario extends HttpServlet {
 				// usuários
 				RequestDispatcher view = request
 						.getRequestDispatcher("/cadastroUsuario.jsp");
-				// atributos da requisição = usuarios (está setando os atributos que vem do daoUsuario
-				//para a page cadastroUsuario no paranmetro "item" da tabela  
+				// atributos da requisição = usuarios (está setando os atributos
+				// que vem do daoUsuario
+				// para a page cadastroUsuario no parametro "item" da tabela
 				request.setAttribute("usuarios", daoUsuario.listar());
 				// redirecionamento:
 				view.forward(request, response);
@@ -136,17 +209,18 @@ public class Usuario extends HttpServlet {
 			String login = request.getParameter("login");
 			String senha = request.getParameter("senha");
 			String nome = request.getParameter("nome");
-			String fone = request.getParameter("fone");
+			String email = request.getParameter("email");
 			String cep = request.getParameter("cep");
 			String rua = request.getParameter("rua");
 			String bairro = request.getParameter("bairro");
 			String cidade = request.getParameter("cidade");
 			String uf = request.getParameter("uf");
-			
+
 			try {
+
 				StringBuilder msg = new StringBuilder();
 				boolean podeValidar = true;
-				
+
 				if (login == null || login.isEmpty()) {
 					msg.append("O Login deve ser preenchido. \n");
 					podeValidar = false;
@@ -159,28 +233,47 @@ public class Usuario extends HttpServlet {
 					msg.append("O Nome deve ser preenchido. \n");
 					podeValidar = false;
 				}
-								
+
 				// criar o objeto usuario com login e senha
 				BeanUsuarioJsp usuario = new BeanUsuarioJsp();
-				
-				
+
 				if (podeValidar) {
 					usuario.setId(!id.isEmpty() ? Long.parseLong(id) : null);
 					usuario.setLogin(login);
 					usuario.setSenha(senha);
 					usuario.setNome(nome);
-					usuario.setFone(fone);
+					usuario.setEmail(email);
 					usuario.setCep(cep);
 					usuario.setRua(rua);
 					usuario.setBairro(bairro);
 					usuario.setCidade(cidade);
 					usuario.setUf(uf);
 				}
-				
 
-				// passar o objeto usuario com login e senha para o método salvar do
-				// dao
-				// de cadastro
+				/** Inicio "File Upload" de imagens e PDF */
+
+				// verifica se é um formulário de upload
+				if (ServletFileUpload.isMultipartContent(request)) {
+
+					Part imageFoto = request.getPart("foto");
+
+					String fotoBase64 = new Base64()
+							.encodeBase64String(converteStreamParaByte(imageFoto
+									.getInputStream()));
+
+					usuario.setFotoBase64(fotoBase64);
+					usuario.setContentType(imageFoto.getContentType());
+
+				}
+
+				/** Fim "File Upload" de imagens e PDF */
+
+				// -----------------------------------------------------------------------
+
+				/**
+				 * passar o objeto usuario com login e senha para o método
+				 * salvar do dao de cadastro
+				 */
 
 				// -----------------------------------------------------------------------
 
@@ -194,8 +287,6 @@ public class Usuario extends HttpServlet {
 					podeValidar = false;
 					msg.append("A senha escolhida não pode ser usada. \n");
 				}
-
-				
 
 				// caso passe pela validação, cadastra o novo usuário
 
@@ -214,7 +305,7 @@ public class Usuario extends HttpServlet {
 				if (msg != null) {
 					request.setAttribute("msg", msg);
 				}
-				
+
 				// retornar os dados para a tela acaso ocorra algum erro
 				if (!podeValidar) {
 					request.setAttribute("user", usuario);
@@ -235,4 +326,15 @@ public class Usuario extends HttpServlet {
 		}
 	}
 
+	// ------------------------------------------------------------------
+	/** Converte a entrada de fluxo de dados da imagem para byte[] */
+	private byte[] converteStreamParaByte(InputStream imagem) throws Exception {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		int reads = imagem.read();
+		while (reads != -1) {
+			baos.write(reads);
+			reads = imagem.read();
+		}
+		return baos.toByteArray();
+	}
 }
