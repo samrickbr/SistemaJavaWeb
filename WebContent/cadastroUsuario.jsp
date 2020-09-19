@@ -46,6 +46,11 @@
 						class="material-form" id="quoteForm"
 						onsubmit="return validarCampos()? true:false;"
 						enctype="multipart/form-data">
+
+						<br />
+						<br />
+						<br />
+
 						<h2 style="color: white; font-weight: 200;">Dados de
 							cadastro:</h2>
 
@@ -109,11 +114,16 @@
 								type="text" class="form-control" id="uf" name="uf"
 								value="${user.uf}" placeholder="Estado">
 						</div>
+						<br /> <br /> <br />
 						<div class="col-md-6 col-sm-6">
 							<label for="foto" class="label label-default">FOTO:</label> <input
 								type="file" class="form-control" id="foto" name="foto">
 						</div>
-						<br /> <br /> <br />
+						<div class="col-md-6 col-sm-6">
+							<label for="curriculo" class="label label-default">Curriculo:</label>
+							<input type="file" class="form-control" id="curriculo"
+								name="curriculo">
+						</div>
 
 						<pre
 							style="color: orange; background-color: transparent; border: thin; font-size: medium;">${msg }</pre>
@@ -146,7 +156,8 @@
 											<th style="text-align: center;">ID</th>
 											<th style="text-align: center;">LOGIN</th>
 											<th style="text-align: center;">NOME</th>
-											<th style="text-align: center;">E-MAIL</th>
+											<th style="text-align: center;">FOTO</th>
+											<th style="text-align: center;">CURRICULO</th>
 											<th colspan="3" style="text-align: center;">OPÇÕES</th>
 										</tr>
 									</thead>
@@ -155,10 +166,12 @@
 											<td style="width: 50px"><c:out value="${user.id}"></c:out></td>
 											<td style="width: 100px"><c:out value="${user.login}"></c:out></td>
 											<td style="width: 100px"><c:out value="${user.nome}"></c:out></td>
-											<td style="width: 100px"><img
-												src='<c:out value="${user.tempFotoUser}"></c:out>'
-												width="32px" height="32px"></td>
-
+											<td style="width: 100px"><a
+												href="salvarUsuario?acao=download&tipo=imagem&user=${user.id}"><img
+													src='<c:out value="${user.tempFotoUser}"></c:out>'
+													width="32px" height="32px"></a></td>
+											<td style="width: 100px"><a
+												href="salvarUsuario?acao=download&tipo=curriculo&user=${user.id}">Curriculo</a></td>
 											<td style="width: 50px"><a
 												href="salvarUsuario?acao=delete&user=${user.id}"><img
 													width="20px" height="20px" alt="Excluir" title="Excluir"

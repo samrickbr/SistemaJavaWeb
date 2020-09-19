@@ -15,11 +15,27 @@ public class BeanUsuarioJsp {
 	private String fotoBase64;
 	private String contentType;
 	private String tempFotoUser;
+	private String curriculoBase64;
+	private String contentTypeCurriculo;
+
+	 public String getCurriculoBase64() {
+		return curriculoBase64;
+	}
+
+	public void setCurriculoBase64(String curriculoBase64) {
+		this.curriculoBase64 = curriculoBase64;
+	}
+
+	public String getContentTypeCurriculo() {
+		return contentTypeCurriculo;
+	}
+
+	public void setContentTypeCurriculo(String contentTypeCurriculo) {
+		this.contentTypeCurriculo = contentTypeCurriculo;
+	}
 
 	public String getTempFotoUser() {
-	
-		tempFotoUser = "data:" + contentType + ";base64," + fotoBase64; 
-		
+		tempFotoUser = "data:" + contentType + ";base64," + fotoBase64;
 		return tempFotoUser;
 	}
 

@@ -19,7 +19,7 @@
 			<div class="login-form">
 
 
-				<c:out value="${'Bem vindo ao JSTL!' }" />
+				<c:out value="${'Bem vindo ao JSTL! Sistema Java Web' }" />
 				<hr>
 				<br />
 

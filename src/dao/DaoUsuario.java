@@ -24,7 +24,7 @@ public class DaoUsuario {
 
 		try {
 			String sql = "insert into usuario(login, senha, nome, email, cep, rua, bairro, cidade, "
-					+ "uf, fotobase64, contenttype) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					+ "uf, fotobase64, contenttype,curriculobase64, contenttypecurriculo) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement insert = connection.prepareStatement(sql);
 			insert.setString(1, usuario.getLogin());
 			insert.setString(2, usuario.getSenha());
@@ -37,6 +37,8 @@ public class DaoUsuario {
 			insert.setString(9, usuario.getUf());
 			insert.setString(10, usuario.getFotoBase64());
 			insert.setString(11, usuario.getContentType());
+			insert.setString(13, usuario.getCurriculoBase64());
+			insert.setString(14, usuario.getContentTypeCurriculo());
 			insert.execute();
 
 			// ocorrendo tudo certo com a inserção a operação é commitada
@@ -81,6 +83,8 @@ public class DaoUsuario {
 			usuario.setUf(resultSet.getString("uf"));
 			usuario.setFotoBase64(resultSet.getString("fotobase64"));
 			usuario.setContentType(resultSet.getString("contenttype"));
+			usuario.setCurriculoBase64(resultSet.getString("curriculobase64"));
+			usuario.setContentTypeCurriculo(resultSet.getString("contenttypecurriculo"));
 
 			listar.add(usuario);
 		}
@@ -112,7 +116,7 @@ public class DaoUsuario {
 		try {
 
 			String sql = "update usuario set login = ?, senha = ?, nome = ?, email = ?, "
-					+ "cep = ?, rua = ?, bairro = ?, cidade = ?, uf = ?, fotobase64 = ?, contenttype = ? where id = "
+					+ "cep = ?, rua = ?, bairro = ?, cidade = ?, uf = ?, fotobase64 = ?, contenttype = ?, curriculobase64 = ?, contenttypecurriculo = ? where id = "
 					+ usuario.getId();
 			PreparedStatement update = connection.prepareStatement(sql);
 			update.setString(1, usuario.getLogin());
@@ -126,6 +130,8 @@ public class DaoUsuario {
 			update.setString(9, usuario.getUf());
 			update.setString(10, usuario.getFotoBase64());
 			update.setString(11, usuario.getContentType());
+			update.setString(12, usuario.getCurriculoBase64());
+			update.setString(13, usuario.getContentTypeCurriculo());
 
 			update.executeUpdate();
 
@@ -162,6 +168,8 @@ public class DaoUsuario {
 			usuario.setUf(resultSet.getString("uf"));
 			usuario.setFotoBase64(resultSet.getString("fotobase64"));
 			usuario.setContentType(resultSet.getString("contenttype"));
+			usuario.setCurriculoBase64(resultSet.getString("curriculobase64"));
+			usuario.setContentTypeCurriculo(resultSet.getString("contenttypecurriculo"));
 
 			return usuario;
 
