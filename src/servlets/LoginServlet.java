@@ -22,7 +22,6 @@ public class LoginServlet extends HttpServlet {
     
     public LoginServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -40,13 +39,13 @@ public class LoginServlet extends HttpServlet {
 		
 		String login = request.getParameter("login");
 		String senha = request.getParameter("senha");
-		/*validação do login e senha*/
-	//	if (beanCursoJsp.validaLoginSenha(login, senha)) { // este método utiliza o bean pra validar o login
+		/*validaï¿½ï¿½o do login e senha*/
+	//	if (beanCursoJsp.validaLoginSenha(login, senha)) { // este mï¿½todo utiliza o bean pra validar o login
 		
 		try {
-			if (daoLogin.validarLogin(login, senha)){ //este método utiliza o DAO para conectar no DB e validar o login
-				/*método para direcionar para a página do sistema caso login e senha sejam verdadeiros*/
-				RequestDispatcher dispatcher = request.getRequestDispatcher("acessopermitido.jsp"); //setar uma página
+			if (daoLogin.validarLogin(login, senha)){ //este mï¿½todo utiliza o DAO para conectar no DB e validar o login
+				/*mï¿½todo para direcionar para a pï¿½gina do sistema caso login e senha sejam verdadeiros*/
+				RequestDispatcher dispatcher = request.getRequestDispatcher("acessopermitido.jsp"); //setar uma pï¿½gina
 				dispatcher.forward(request, response);
 			} else {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("acessonegado.jsp");

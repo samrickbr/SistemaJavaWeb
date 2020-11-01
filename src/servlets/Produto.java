@@ -9,11 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
-
-import com.sun.xml.internal.messaging.saaj.packaging.mime.util.BEncoderStream;
-
-import sun.rmi.server.Dispatcher;
 import beans.BeanProduto;
 import dao.DaoProduto;
 
@@ -51,7 +46,7 @@ public class Produto extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 				request.setAttribute("msg",
-						"Não foi possível deletar o produto selecionado.");
+						"Nï¿½o foi possï¿½vel deletar o produto selecionado.");
 			}
 
 		} else if (acao.equalsIgnoreCase("editar")) {
@@ -61,14 +56,14 @@ public class Produto extends HttpServlet {
 				// (daoProduto.consultar)
 				BeanProduto produto = daoProduto.consultar(prod);
 
-				// chamar a página para fazer a edição
+				// chamar a pï¿½gina para fazer a ediï¿½ï¿½o
 				RequestDispatcher view = request
 						.getRequestDispatcher("/cadastroProduto.jsp");
 
-				// injetar os dados do obj na pág pelo sufixo (prod.id...)
+				// injetar os dados do obj na pï¿½g pelo sufixo (prod.id...)
 				request.setAttribute("prod", produto);
 
-				// carregar a pagina com as requisições
+				// carregar a pagina com as requisiï¿½ï¿½es
 				view.forward(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -139,11 +134,11 @@ public class Produto extends HttpServlet {
 					podeValidar = false;
 				}
 				if (codigo == null || codigo.isEmpty()) {
-					msg.append("O código do produto deve ser informado.\n ");
+					msg.append("O cï¿½digo do produto deve ser informado.\n ");
 					podeValidar = false;
 				}
 				if (preco == null || preco.isEmpty()) {
-					msg.append("O preço do produto deve ser informado.\n ");
+					msg.append("O preï¿½o do produto deve ser informado.\n ");
 					podeValidar = false;
 				}
 				if (estoque == null || estoque.isEmpty()) {
@@ -161,16 +156,16 @@ public class Produto extends HttpServlet {
 				}
 				if (id == null || id.isEmpty() // ok
 						&& !daoProduto.validarCodigo(codigo)) {
-					msg.append("Já existe um produto cadastrado com este código.\n"
-							+ "Não é possivel cadastrar o novo produto. ");
+					msg.append("Jï¿½ existe um produto cadastrado com este cï¿½digo.\n"
+							+ "Nï¿½o ï¿½ possivel cadastrar o novo produto. ");
 					podeValidar = false;
 
 				} else if (id != null
 						&& !id.isEmpty()
 						&& !daoProduto.validarCodigoUpdate(
 								Integer.parseInt(codigo), Long.parseLong(id))) {
-					msg.append("Já existe um produto cadastrado com este código.\n"
-							+ "Não é possivel atualizar o produto atual. ");
+					msg.append("Jï¿½ existe um produto cadastrado com este cï¿½digo.\n"
+							+ "Nï¿½o ï¿½ possivel atualizar o produto atual. ");
 					podeValidar = false;
 				}
 

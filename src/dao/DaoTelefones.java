@@ -7,11 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.util.BEncoderStream;
-
-import connection.SingleConnection;
-import beans.BeanProduto;
 import beans.BeanTelefones;
+import connection.SingleConnection;
 
 public class DaoTelefones {
 
@@ -39,7 +36,6 @@ public class DaoTelefones {
 			try {
 				connection.rollback();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}

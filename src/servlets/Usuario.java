@@ -5,7 +5,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,8 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.tomcat.util.codec.binary.Base64;
 
@@ -44,24 +41,24 @@ public class Usuario extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		// pegar os parametros para executar a ação com o login selecionado
+		// pegar os parametros para executar a aï¿½ï¿½o com o login selecionado
 
 		String acao = request.getParameter("acao");
 		String user = request.getParameter("user");
 
 		// -----------------------------------------------------------------------
-		// verificar se a ação é delete
+		// verificar se a aï¿½ï¿½o ï¿½ delete
 		if (acao.equals("delete")) {
 			daoUsuario.delete(user);
 
 			try {
-				// criar um dispatcher para setar a variável e listar os
-				// usuários
-				request.setAttribute("msg", "Usuário deletado com sucesso!");
+				// criar um dispatcher para setar a variï¿½vel e listar os
+				// usuï¿½rios
+				request.setAttribute("msg", "Usuï¿½rio deletado com sucesso!");
 
 				RequestDispatcher view = request
 						.getRequestDispatcher("/cadastroUsuario.jsp");
-				// atributos da requisição = usuarios (está setando os atributos
+				// atributos da requisiï¿½ï¿½o = usuarios (estï¿½ setando os atributos
 				// que vem do daoUsuario
 				// para a page cadastroUsuario no paranmetro "item" da tabela
 				request.setAttribute("usuarios", daoUsuario.listar());
@@ -70,7 +67,7 @@ public class Usuario extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 				request.setAttribute("msg",
-						"Não foi possível deletar o usuário seleciondo.");
+						"Nï¿½o foi possï¿½vel deletar o usuï¿½rio seleciondo.");
 			}
 			// -----------------------------------------------------------------------
 		} else if (acao.equals("editar")) {
@@ -78,13 +75,13 @@ public class Usuario extends HttpServlet {
 			try {
 				beanUsuarioJsp = daoUsuario.consultar(user);
 
-				// redirecionar para a página com a tabela dos cadastros
+				// redirecionar para a pï¿½gina com a tabela dos cadastros
 
-				// criar um dispatcher para setar a variável e listar os
-				// usuários
+				// criar um dispatcher para setar a variï¿½vel e listar os
+				// usuï¿½rios
 				RequestDispatcher view = request
 						.getRequestDispatcher("/cadastroUsuario.jsp");
-				// atributos da requisição = usuarios (está setando os atributos
+				// atributos da requisiï¿½ï¿½o = usuarios (estï¿½ setando os atributos
 				// que vem do daoUsuario
 				// para a page cadastroUsuario no paranmetro "item" da tabela
 				request.setAttribute("user", beanUsuarioJsp);
@@ -100,13 +97,13 @@ public class Usuario extends HttpServlet {
 			try {
 				beanUsuarioJsp = daoUsuario.consultar(user);
 
-				// redirecionar para a página com a tabela dos cadastros
+				// redirecionar para a pï¿½gina com a tabela dos cadastros
 
-				// criar um dispatcher para setar a variável e listar os
-				// usuários
+				// criar um dispatcher para setar a variï¿½vel e listar os
+				// usuï¿½rios
 				RequestDispatcher view = request
 						.getRequestDispatcher("/telefones.jsp");
-				// atributos da requisição = usuarios (está setando os atributos
+				// atributos da requisiï¿½ï¿½o = usuarios (estï¿½ setando os atributos
 				// que vem do daoUsuario
 				// para a page cadastroUsuario no paranmetro "item" da tabela
 				request.setAttribute("user", beanUsuarioJsp);
@@ -119,11 +116,11 @@ public class Usuario extends HttpServlet {
 			// -----------------------------------------------------------------------
 		} else if (acao != null && acao.equalsIgnoreCase("reset")) {
 			try {
-				// criar um dispatcher para setar a variável e listar os
-				// usuários
+				// criar um dispatcher para setar a variï¿½vel e listar os
+				// usuï¿½rios
 				RequestDispatcher view = request
 						.getRequestDispatcher("/cadastroUsuario.jsp");
-				// atributos da requisição = usuarios (está setando os atributos
+				// atributos da requisiï¿½ï¿½o = usuarios (estï¿½ setando os atributos
 				// que vem do daoUsuario
 				// para a page cadastroUsuario no parametro "item" da tabela
 				request.setAttribute("usuarios", daoUsuario.listar());
@@ -136,7 +133,7 @@ public class Usuario extends HttpServlet {
 		} else if (acao.equalsIgnoreCase("listartodos")) {
 			RequestDispatcher view = request
 					.getRequestDispatcher("/cadastroUsuario.jsp");
-			// atributos da requisição = usuarios (está setando os atributos que
+			// atributos da requisiï¿½ï¿½o = usuarios (estï¿½ setando os atributos que
 			// vem do daoUsuario
 			// para a page cadastroUsuario no parametro "item" da tabela
 			try {
@@ -150,7 +147,7 @@ public class Usuario extends HttpServlet {
 		} else if (acao.equalsIgnoreCase("consultartodos")) {
 			RequestDispatcher view = request
 					.getRequestDispatcher("/consultaUsuario.jsp");
-			// atributos da requisição = usuarios que vem do daoUsuario
+			// atributos da requisiï¿½ï¿½o = usuarios que vem do daoUsuario
 			try {
 				request.setAttribute("usuarios", daoUsuario.listar());
 			} catch (Exception e) {
@@ -170,11 +167,13 @@ public class Usuario extends HttpServlet {
 					if (tipo.equalsIgnoreCase("imagem")) {
 						/** Converte a base64 da imagem do banco para byte[] */
 						contentType = usuario.getContentType();
-						fileBytes = new Base64().decodeBase64(usuario
+						new Base64();
+						fileBytes = Base64.decodeBase64(usuario
 								.getFotoBase64());
 					} else if (tipo.equalsIgnoreCase("curriculo")) {
 						contentType = usuario.getContentTypeCurriculo();
-						fileBytes = new Base64().decodeBase64(usuario
+						new Base64();
+						fileBytes = Base64.decodeBase64(usuario
 								.getCurriculoBase64());
 					}
 
@@ -186,7 +185,7 @@ public class Usuario extends HttpServlet {
 					/** Coloca os bytes em um objeto de entrada para processar */
 					InputStream is = new ByteArrayInputStream(fileBytes);
 
-					/** Início da resposta para o navegador */
+					/** Inï¿½cio da resposta para o navegador */
 					int read = 0;
 					byte[] bytes = new byte[1024];
 					OutputStream os = response.getOutputStream();
@@ -213,11 +212,11 @@ public class Usuario extends HttpServlet {
 		// -----------------------------------------------------------------------
 		if (acao != null && acao.equalsIgnoreCase("reset")) {
 			try {
-				// criar um dispatcher para setar a variável e listar os
-				// usuários
+				// criar um dispatcher para setar a variï¿½vel e listar os
+				// usuï¿½rios
 				RequestDispatcher view = request
 						.getRequestDispatcher("/cadastroUsuario.jsp");
-				// atributos da requisição = usuarios (está setando os atributos
+				// atributos da requisiï¿½ï¿½o = usuarios (estï¿½ setando os atributos
 				// que vem do daoUsuario
 				// para a page cadastroUsuario no parametro "item" da tabela
 				request.setAttribute("usuarios", daoUsuario.listar());
@@ -228,7 +227,7 @@ public class Usuario extends HttpServlet {
 			}
 			// -----------------------------------------------------------------------
 		} else {
-			// Salvar, alterar usuário
+			// Salvar, alterar usuï¿½rio
 
 			String id = request.getParameter("id");
 			String login = request.getParameter("login");
@@ -277,12 +276,13 @@ public class Usuario extends HttpServlet {
 
 				/** Inicio "File Upload" de imagens e PDF */
 
-				// verifica se é um formulário de upload
+				// verifica se ï¿½ um formulï¿½rio de upload
 				if (ServletFileUpload.isMultipartContent(request)) {
 
 					Part imageFoto = request.getPart("foto");
 					if (imageFoto != null) {
-						String fotoBase64 = new Base64()
+						new Base64();
+						String fotoBase64 = Base64
 								.encodeBase64String(converteStreamParaByte(imageFoto
 										.getInputStream()));
 						usuario.setFotoBase64(fotoBase64);
@@ -290,7 +290,8 @@ public class Usuario extends HttpServlet {
 					}
 					Part curriculoPdf = request.getPart("curriculo");
 					if (curriculoPdf != null) {
-						String curriculoBase64 = new Base64()
+						new Base64();
+						String curriculoBase64 = Base64
 								.encodeBase64String(converteStreamParaByte(curriculoPdf
 										.getInputStream()));
 						usuario.setCurriculoBase64(curriculoBase64);
@@ -305,34 +306,34 @@ public class Usuario extends HttpServlet {
 				// -----------------------------------------------------------------------
 
 				/**
-				 * passar o objeto usuario com login e senha para o método
+				 * passar o objeto usuario com login e senha para o mï¿½todo
 				 * salvar do dao de cadastro
 				 */
 
 				// -----------------------------------------------------------------------
 
-				// validação de usuário novo
+				// validaï¿½ï¿½o de usuï¿½rio novo
 				if (id == null || id.isEmpty() //
 						&& !daoUsuario.validarLogin(login)) {
-					msg.append("O login escolhido já existe. \n");
+					msg.append("O login escolhido jï¿½ existe. \n");
 					podeValidar = false;
 				} else if (id == null || id.isEmpty() //
 						&& !daoUsuario.validarSenha(senha)) {
 					podeValidar = false;
-					msg.append("A senha escolhida não pode ser usada. \n");
+					msg.append("A senha escolhida nï¿½o pode ser usada. \n");
 				}
 
-				// caso passe pela validação, cadastra o novo usuário
+				// caso passe pela validaï¿½ï¿½o, cadastra o novo usuï¿½rio
 
 				if (id == null || id.isEmpty()
 						&& daoUsuario.validarLogin(login) && podeValidar) {
 					daoUsuario.salvar(usuario);
-					msg.append("Usuário Cadastrado com sucesso! \n");
+					msg.append("Usuï¿½rio Cadastrado com sucesso! \n");
 				} else if (id != null && !id.isEmpty() && podeValidar) {
 
-					// caso passe pela validação,altera o usuário
+					// caso passe pela validaï¿½ï¿½o,altera o usuï¿½rio
 					daoUsuario.edit(usuario);
-					msg.append("Usuário alterado com sucesso! \n");
+					msg.append("Usuï¿½rio alterado com sucesso! \n");
 				}
 
 				// mensagem de retorno
@@ -345,11 +346,11 @@ public class Usuario extends HttpServlet {
 					request.setAttribute("user", usuario);
 				}
 
-				// criar um dispatcher para setar a variável e listar os
-				// usuários
+				// criar um dispatcher para setar a variï¿½vel e listar os
+				// usuï¿½rios
 				RequestDispatcher view = request
 						.getRequestDispatcher("/cadastroUsuario.jsp");
-				// atributos da requisição = usuarios que vem do daoUsuario
+				// atributos da requisiï¿½ï¿½o = usuarios que vem do daoUsuario
 				request.setAttribute("usuarios", daoUsuario.listar());
 				// redirecionamento:
 				view.forward(request, response);
