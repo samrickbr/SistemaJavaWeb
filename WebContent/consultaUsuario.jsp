@@ -77,18 +77,18 @@
 									<td style="width: 100px; text-align: center;"><c:out
 											value="${user.uf}"></c:out></td>
 
-									<td style="width: 50px; text-align: center;"><a
-										href="salvarUsuario?acao=delete&user=${user.id}"><img
-											width="20px" height="20px" alt="Excluir" title="Excluir"
-											src="resources/img/excluir.png"></a></td>
-									<td style="width: 50px; text-align: center;"><a
-										href="salvarUsuario?acao=editar&user=${user.id}"><img
-											width="20px" height="20px" alt="Editar" title="Editar"
-											src="resources/img/editar.png"> </a></td>
 									<td style="width: 50px"><a
 										href="salvarTelefones?acao=addFone&user=${user.id}"><img width="20px"
 											height="20px" alt="Telefones" title="Telefones"
 											src="resources/img/phone.png"> </a></td>
+									<td style="width: 50px; text-align: center;"><a
+										href="salvarUsuario?acao=editar&user=${user.id}"><img
+											width="20px" height="20px" alt="Editar" title="Editar"
+											src="resources/img/editar.png"> </a></td>
+									<td style="width: 50px; text-align: center;"><a
+										href="salvarUsuario?acao=delete&user=${user.id}"><img
+											width="20px" height="20px" alt="Excluir" title="Excluir"
+											src="resources/img/excluir.png"></a></td>
 								</tr>
 							</c:forEach>
 						</table>

@@ -26,11 +26,11 @@ public class TelefonesServlets extends HttpServlet {
 
 	}
 
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		try {
 			String acao = request.getParameter("acao");
-			
+
 			if (acao.equalsIgnoreCase("addFone")) {
 
 				String user = request.getParameter("user");
@@ -38,18 +38,15 @@ public class TelefonesServlets extends HttpServlet {
 				BeanUsuarioJsp usuario = daoUsuario.consultar(user);
 
 				/*
-				 * setar uma sessão para não perder o usuário que está sendo
-				 * inserido o telefone
+				 * setar uma sessão para não perder o usuário que está sendo inserido o telefone
 				 */
 				request.getSession().setAttribute("userEscolhido", usuario);
 				request.setAttribute("userEscolhido", usuario);
 
 				// direcionar o pedido para a tela de telefones
-				RequestDispatcher view = request
-						.getRequestDispatcher("/telefones.jsp");
+				RequestDispatcher view = request.getRequestDispatcher("/telefones.jsp");
 
-				request.setAttribute("telefones",
-						daoTelefones.listar(usuario.getId()));
+				request.setAttribute("telefones", daoTelefones.listar(usuario.getId()));
 
 				// ir para a tela de telefones
 				view.forward(request, response);
@@ -58,52 +55,51 @@ public class TelefonesServlets extends HttpServlet {
 
 				daoTelefones.deletar(foneId);
 
-				BeanUsuarioJsp usuario = (BeanUsuarioJsp) request.getSession()
-						.getAttribute("userEscolhido");
+				BeanUsuarioJsp usuario = (BeanUsuarioJsp) request.getSession().getAttribute("userEscolhido");
 				// direcionar o pedido para a tela de telefones
-				RequestDispatcher view = request
-						.getRequestDispatcher("/telefones.jsp");
-				request.setAttribute("telefones",
-						daoTelefones.listar(usuario.getId()));
+				RequestDispatcher view = request.getRequestDispatcher("/telefones.jsp");
+				request.setAttribute("telefones", daoTelefones.listar(usuario.getId()));
 				request.setAttribute("msg", "Telefone deletado com sucesso!");
 
 				// ir para a tela de telefones
 				view.forward(request, response);
 			}
 		} catch (Exception e) {
-
 			e.printStackTrace();
 		}
-
 	}
 
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		try {
-
-			BeanUsuarioJsp usuario = (BeanUsuarioJsp) request.getSession()
-					.getAttribute("userEscolhido");
+			BeanUsuarioJsp usuario = (BeanUsuarioJsp) request.getSession().getAttribute("userEscolhido");
 			String numero = request.getParameter("numero");
 			String tipo = request.getParameter("tipo");
+			String acao = request.getParameter("acao");
 
-			BeanTelefones telefones = new BeanTelefones();
-			telefones.setNumero(numero);
-			telefones.setTipo(tipo);
-			telefones.setUsuario(usuario.getId());
+			if (acao == null || (acao != null && !acao.equalsIgnoreCase("voltar"))) {
 
-			daoTelefones.salvar(telefones);
-			request.getSession().setAttribute("userEscolhido", usuario);
-			request.setAttribute("userEscolhido", usuario);
+				BeanTelefones telefones = new BeanTelefones();
+				telefones.setNumero(numero);
+				telefones.setTipo(tipo);
+				telefones.setUsuario(usuario.getId());
 
-			// direcionar o pedido para a tela de telefones
-			RequestDispatcher view = request
-					.getRequestDispatcher("/telefones.jsp");
-			request.setAttribute("telefones",
-					daoTelefones.listar(usuario.getId()));
-			request.setAttribute("msg", "Telefone salvo com sucesso!");
+				daoTelefones.salvar(telefones);
+				request.getSession().setAttribute("userEscolhido", usuario);
+				request.setAttribute("userEscolhido", usuario);
 
-			// ir para a tela de telefones
-			view.forward(request, response);
+				// direcionar o pedido para a tela de telefones
+				RequestDispatcher view = request.getRequestDispatcher("/telefones.jsp");
+				request.setAttribute("telefones", daoTelefones.listar(usuario.getId()));
+				request.setAttribute("msg", "Telefone salvo com sucesso!");
+
+				// ir para a tela de telefones
+				view.forward(request, response);
+			} else {
+				RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
+				request.setAttribute("usuarios", daoUsuario.listar());
+				view.forward(request, response);
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();

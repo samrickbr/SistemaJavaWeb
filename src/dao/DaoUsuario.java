@@ -37,8 +37,8 @@ public class DaoUsuario {
 			insert.setString(9, usuario.getUf());
 			insert.setString(10, usuario.getFotoBase64());
 			insert.setString(11, usuario.getContentType());
-			insert.setString(13, usuario.getCurriculoBase64());
-			insert.setString(14, usuario.getContentTypeCurriculo());
+			insert.setString(12, usuario.getCurriculoBase64());
+			insert.setString(13, usuario.getContentTypeCurriculo());
 			insert.execute();
 
 			// ocorrendo tudo certo com a inserção a operação é commitada
@@ -108,7 +108,45 @@ public class DaoUsuario {
 				e1.printStackTrace();
 			}
 		}
+	}
 
+	// =============================================================
+	public void delFoto(String id) {
+		try {
+
+			String sql = "update usuario set fotobase64 = '', contenttype = '' where id = '" + id + "'";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.executeUpdate();
+
+			connection.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+
+	// =============================================================
+
+	public void delPdf(String id) {
+		try {
+
+			String sql = "update usuario set curriculobase64 = '', contenttypecurriculo = '' where id = '" + id + "'";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.executeUpdate();
+
+			connection.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
 	}
 
 	// =============================================================
@@ -116,8 +154,8 @@ public class DaoUsuario {
 		try {
 
 			String sql = "update usuario set login = ?, senha = ?, nome = ?, email = ?, "
-					+ "cep = ?, rua = ?, bairro = ?, cidade = ?, uf = ?, fotobase64 = ?, contenttype = ?, curriculobase64 = ?, contenttypecurriculo = ? where id = "
-					+ usuario.getId();
+					+ "cep = ?, rua = ?, bairro = ?, cidade = ?, uf = ?, fotobase64 = ?, "
+					+ "contenttype = ?, curriculobase64 = ?, contenttypecurriculo = ? where id = " + usuario.getId();
 			PreparedStatement update = connection.prepareStatement(sql);
 			update.setString(1, usuario.getLogin());
 			update.setString(2, usuario.getSenha());
@@ -181,17 +219,15 @@ public class DaoUsuario {
 
 	// =============================================================
 	public boolean validarLogin(String login) throws Exception {
-		String sql = "select count(1) as qtd from usuario where login = '"
-				+ login + "' ";
+		String sql = "select count(1) as qtd from usuario where login = '" + login + "' ";
 		PreparedStatement preparedStatement = connection.prepareStatement(sql);
 		ResultSet resultSet = preparedStatement.executeQuery();
 
 		if (resultSet.next()) {
 
 			return resultSet.getInt("qtd") <= 0;/*
-												 * se não existir um login igual
-												 * o count retorna '0' e o
-												 * return tendo qtd <= 0 é true.
+												 * se não existir um login igual o count retorna '0' e o return tendo
+												 * qtd <= 0 é true.
 												 */
 
 		} else {
@@ -202,17 +238,15 @@ public class DaoUsuario {
 
 	// =============================================================
 	public boolean validarLoginUpdate(String login, String id) throws Exception {
-		String sql = "SELECT COUNT(1) as qtd FROM usuario WHERE login = '"
-				+ login + "' AND id <> " + id;
+		String sql = "SELECT COUNT(1) as qtd FROM usuario WHERE login = '" + login + "' AND id <> " + id;
 		PreparedStatement preparedStatement = connection.prepareStatement(sql);
 		ResultSet resultSet = preparedStatement.executeQuery();
 
 		if (resultSet.next()) {
 
 			return resultSet.getInt("qtd") <= 0;/*
-												 * se não existir um login igual
-												 * o count retorna '0' e o
-												 * return tendo qtd <= 0 é true.
+												 * se não existir um login igual o count retorna '0' e o return tendo
+												 * qtd <= 0 é true.
 												 */
 
 		} else {
@@ -223,17 +257,15 @@ public class DaoUsuario {
 
 	// =============================================================
 	public boolean validarSenha(String senha) throws Exception {
-		String sql = "select count(1) as qtd from usuario where senha = '"
-				+ senha + "' ";
+		String sql = "select count(1) as qtd from usuario where senha = '" + senha + "' ";
 		PreparedStatement preparedStatement = connection.prepareStatement(sql);
 		ResultSet resultSet = preparedStatement.executeQuery();
 
 		if (resultSet.next()) {
 
 			return resultSet.getInt("qtd") <= 0;/*
-												 * se não existir um login igual
-												 * o count retorna '0' e o
-												 * return tendo qtd <= 0 é true.
+												 * se não existir um login igual o count retorna '0' e o return tendo
+												 * qtd <= 0 é true.
 												 */
 
 		} else {

@@ -25,8 +25,8 @@ public class Produto extends HttpServlet {
 		super();
 	}
 
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
 		String acao = request.getParameter("acao");
 		String prod = request.getParameter("prod");
@@ -36,8 +36,7 @@ public class Produto extends HttpServlet {
 				daoProduto.deletar(Long.parseLong(prod));
 				request.setAttribute("msg", "Produto deletado com sucesso!");
 
-				RequestDispatcher view = request
-						.getRequestDispatcher("/cadastroProduto.jsp");
+				RequestDispatcher view = request.getRequestDispatcher("/cadastroProduto.jsp");
 
 				request.setAttribute("produtos", daoProduto.listar());
 
@@ -45,8 +44,7 @@ public class Produto extends HttpServlet {
 
 			} catch (Exception e) {
 				e.printStackTrace();
-				request.setAttribute("msg",
-						"Nï¿½o foi possï¿½vel deletar o produto selecionado.");
+				request.setAttribute("msg", "Não foi possível deletar o produto selecionado.");
 			}
 
 		} else if (acao.equalsIgnoreCase("editar")) {
@@ -57,8 +55,7 @@ public class Produto extends HttpServlet {
 				BeanProduto produto = daoProduto.consultar(prod);
 
 				// chamar a pï¿½gina para fazer a ediï¿½ï¿½o
-				RequestDispatcher view = request
-						.getRequestDispatcher("/cadastroProduto.jsp");
+				RequestDispatcher view = request.getRequestDispatcher("/cadastroProduto.jsp");
 
 				// injetar os dados do obj na pï¿½g pelo sufixo (prod.id...)
 				request.setAttribute("prod", produto);
@@ -70,8 +67,7 @@ public class Produto extends HttpServlet {
 			}
 
 		} else if (acao.equalsIgnoreCase("listartodos")) {
-			RequestDispatcher view = request
-					.getRequestDispatcher("/cadastrarProduto.jsp");
+			RequestDispatcher view = request.getRequestDispatcher("/cadastrarProduto.jsp");
 
 			try {
 				request.setAttribute("produtos", daoProduto.listar());
@@ -82,8 +78,7 @@ public class Produto extends HttpServlet {
 			view.forward(request, response);
 
 		} else if (acao.equalsIgnoreCase("consultartodos")) {
-			RequestDispatcher view = request
-					.getRequestDispatcher("/cadastroProduto.jsp");
+			RequestDispatcher view = request.getRequestDispatcher("/cadastroProduto.jsp");
 
 			try {
 				request.setAttribute("produtos", daoProduto.listar());
@@ -96,8 +91,8 @@ public class Produto extends HttpServlet {
 
 	}
 
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
 		String acao = request.getParameter("acao");
 
@@ -105,8 +100,7 @@ public class Produto extends HttpServlet {
 
 			try {
 
-				RequestDispatcher view = request
-						.getRequestDispatcher("/cadastroProduto.jsp");
+				RequestDispatcher view = request.getRequestDispatcher("/cadastroProduto.jsp");
 
 				request.setAttribute("produtos", daoProduto.listar());
 
@@ -134,11 +128,11 @@ public class Produto extends HttpServlet {
 					podeValidar = false;
 				}
 				if (codigo == null || codigo.isEmpty()) {
-					msg.append("O cï¿½digo do produto deve ser informado.\n ");
+					msg.append("O código do produto deve ser informado.\n ");
 					podeValidar = false;
 				}
 				if (preco == null || preco.isEmpty()) {
-					msg.append("O preï¿½o do produto deve ser informado.\n ");
+					msg.append("O preço do produto deve ser informado.\n ");
 					podeValidar = false;
 				}
 				if (estoque == null || estoque.isEmpty()) {
@@ -151,21 +145,25 @@ public class Produto extends HttpServlet {
 					produto.setId(!id.isEmpty() ? Long.parseLong(id) : null);
 					produto.setNome(nome);
 					produto.setCodigo(Integer.parseInt(codigo));
-					produto.setPreco(Float.parseFloat(preco));
-					produto.setEstoque(Float.parseFloat(estoque));
+
+					String valorParse = preco.replace(".", "");
+					valorParse = valorParse.replace(",", ".");
+					produto.setPreco(Float.parseFloat(valorParse));
+
+					String estoqueParse = estoque.replace(".", "");
+					estoqueParse = estoqueParse.replace(",", ".");
+					produto.setEstoque(Float.parseFloat(estoqueParse));
 				}
 				if (id == null || id.isEmpty() // ok
 						&& !daoProduto.validarCodigo(codigo)) {
-					msg.append("Jï¿½ existe um produto cadastrado com este cï¿½digo.\n"
-							+ "Nï¿½o ï¿½ possivel cadastrar o novo produto. ");
+					msg.append("Já existe um produto cadastrado com este código.\n"
+							+ "Não é possivel cadastrar o novo produto. ");
 					podeValidar = false;
 
-				} else if (id != null
-						&& !id.isEmpty()
-						&& !daoProduto.validarCodigoUpdate(
-								Integer.parseInt(codigo), Long.parseLong(id))) {
-					msg.append("Jï¿½ existe um produto cadastrado com este cï¿½digo.\n"
-							+ "Nï¿½o ï¿½ possivel atualizar o produto atual. ");
+				} else if (id != null && !id.isEmpty()
+						&& !daoProduto.validarCodigoUpdate(Integer.parseInt(codigo), Long.parseLong(id))) {
+					msg.append("Já existe um produto cadastrado com este código.\n"
+							+ "Não é possivel atualizar o produto atual. ");
 					podeValidar = false;
 				}
 
@@ -187,8 +185,7 @@ public class Produto extends HttpServlet {
 					request.setAttribute("prod", produto);
 				}
 
-				RequestDispatcher view = request
-						.getRequestDispatcher("/cadastroProduto.jsp");
+				RequestDispatcher view = request.getRequestDispatcher("/cadastroProduto.jsp");
 
 				request.setAttribute("produtos", daoProduto.listar());
 				view.forward(request, response);

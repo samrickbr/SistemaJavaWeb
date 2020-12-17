@@ -18,19 +18,19 @@ CREATE SEQUENCE user_id_seq
 -- Criação tabela 'Usuario'
 CREATE TABLE usuario(
   id BIGINT NOT NULL DEFAULT nextval('user_id_seq'::regclass),
-  login character varying(255),
-  senha character varying(255),
+  login character varying(100),
+  senha character varying(100),
   nome character varying(255),
   email character varying(255),
-  cep character varying(255),
+  cep character varying(20),
   rua character varying(255),
-  bairro character varying(255),
-  cidade character varying(255),
+  bairro character varying(200),
+  cidade character varying(200),
   uf character varying(255),
-  fotobase64 character varying(255),
-  contenttype character varying(255),
-  curriculobase64 character varying(255),
-  contenttypecurriculo character varying(255),
+  fotobase64 text,
+  contenttype text,
+  curriculobase64 text,
+  contenttypecurriculo text,
   CONSTRAINT user_pkey PRIMARY KEY (id)
 );
 
@@ -70,3 +70,8 @@ CREATE TABLE telefone(
   usuario BIGINT,
   CONSTRAINT tel_pkey PRIMARY KEY (id)
 );
+
+-- Inserir usuario admin para iniciar o sistema
+INSERT INTO public.usuario(
+            login, senha, nome)
+    VALUES ('admin', 'admin', 'admin');

@@ -17,43 +17,59 @@ import dao.DaoLogin;
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    
+
 	private DaoLogin daoLogin = new DaoLogin();
-    
-    public LoginServlet() {
-        super();
-    }
+
+	public LoginServlet() {
+		super();
+	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doPost(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//BeanCursoJsp beanCursoJsp = new BeanCursoJsp();
-		
-		String login = request.getParameter("login");
-		String senha = request.getParameter("senha");
-		/*validaï¿½ï¿½o do login e senha*/
-	//	if (beanCursoJsp.validaLoginSenha(login, senha)) { // este mï¿½todo utiliza o bean pra validar o login
-		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// BeanCursoJsp beanCursoJsp = new BeanCursoJsp();
 		try {
-			if (daoLogin.validarLogin(login, senha)){ //este mï¿½todo utiliza o DAO para conectar no DB e validar o login
-				/*mï¿½todo para direcionar para a pï¿½gina do sistema caso login e senha sejam verdadeiros*/
-				RequestDispatcher dispatcher = request.getRequestDispatcher("acessopermitido.jsp"); //setar uma pï¿½gina
-				dispatcher.forward(request, response);
+
+			String login = request.getParameter("login");
+			String senha = request.getParameter("senha");
+			/* validaï¿½ï¿½o do login e senha */
+			// if (beanCursoJsp.validaLoginSenha(login, senha)) { // este mï¿½todo utiliza o
+			// bean pra validar o login
+
+			if (login != null && !login.isEmpty() && senha != null && !senha.isEmpty()) {
+
+				if (daoLogin.validarLogin(login, senha)) { // este método utiliza o DAO para conectar no DB e validar
+															// o login
+					/*
+					 * mátodo para direcionar para a página do sistema caso login e senha sejam
+					 * verdadeiros
+					 */
+					RequestDispatcher dispatcher = request.getRequestDispatcher("acessopermitido.jsp"); // setar uma
+																										// página
+					dispatcher.forward(request, response);
+				} else {
+					RequestDispatcher dispatcher = request.getRequestDispatcher("acessonegado.jsp");
+					dispatcher.forward(request, response);
+				}
 			} else {
-				RequestDispatcher dispatcher = request.getRequestDispatcher("acessonegado.jsp");
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
 				dispatcher.forward(request, response);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
 }
