@@ -14,10 +14,19 @@ public class BeanUsuarioJsp {
 	private String uf;
 	private String fotoBase64;
 	private String contentType;
+	private String fotoBase64Miniatura;
 	private String tempFotoUser;
 	private String curriculoBase64;
 	private String contentTypeCurriculo;
-
+	
+	public void setFotoBase64Miniatura(String fotoBase64Miniatura) {
+		this.fotoBase64Miniatura = fotoBase64Miniatura;
+	}
+	
+	public String getFotoBase64Miniatura() {
+		return fotoBase64Miniatura;
+	}
+	
 	 public String getCurriculoBase64() {
 		return curriculoBase64;
 	}

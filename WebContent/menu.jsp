@@ -10,7 +10,6 @@
 <link rel="stylesheet" href="resources/css/estilo/tooplate-style.css">
 <body>
 
-	<!-- MENU -->
 	<div class="navbar custom-navbar navbar-fixed-top" role="navigation">
 		<div class="container">
 
@@ -25,7 +24,7 @@
 				<a href="#" class="navbar-brand"><img src="resources/img/logo.png" height="128px" width="128px"></a>
 			</div>
 
-			<!-- MENU LINKS  teste-->
+			<!-- MENU LINKS  -->
 			<div class="collapse navbar-collapse">
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="acessopermitido.jsp" class="smoothScroll">Home</a></li>
@@ -38,7 +37,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- SCRIPTS -->
+	<!-- <!-- SCRIPTS --
 	<script src="resources/js/estilo/jquery.js"></script>
 	<script src="resources/js/estilo/bootstrap.min.js"></script>
 	<script src="resources/js/estilo/jquery.parallax.js"></script>
@@ -47,7 +46,7 @@
 	<script src="resources/js/estilo/magnific-popup-options.js"></script>
 	<script src="resources/js/estilo/modernizr.custom.js"></script>
 	<script src="resources/js/estilo/smoothscroll.js"></script>
-	<script src="resources/js/estilo/custom.js"></script>
+	<script src="resources/js/estilo/custom.js"></script> -->
 	
 </body>
 </html>

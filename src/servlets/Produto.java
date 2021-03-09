@@ -54,13 +54,13 @@ public class Produto extends HttpServlet {
 				// (daoProduto.consultar)
 				BeanProduto produto = daoProduto.consultar(prod);
 
-				// chamar a pï¿½gina para fazer a ediï¿½ï¿½o
+				// chamar a página para fazer a edição
 				RequestDispatcher view = request.getRequestDispatcher("/cadastroProduto.jsp");
 
-				// injetar os dados do obj na pï¿½g pelo sufixo (prod.id...)
+				// injetar os dados do obj na pag pelo sufixo (prod.id...)
 				request.setAttribute("prod", produto);
 
-				// carregar a pagina com as requisiï¿½ï¿½es
+				// carregar a pagina com as requisições
 				view.forward(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -146,7 +146,8 @@ public class Produto extends HttpServlet {
 					produto.setNome(nome);
 					produto.setCodigo(Integer.parseInt(codigo));
 
-					String valorParse = preco.replace(".", "");
+					String valorParse = preco.replace("R$ ", "");
+					valorParse = valorParse.replace(".", "");
 					valorParse = valorParse.replace(",", ".");
 					produto.setPreco(Float.parseFloat(valorParse));
 

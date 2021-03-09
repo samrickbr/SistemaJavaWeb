@@ -39,4 +39,11 @@ public class BeanProduto {
 	public void setEstoque(float estoque) {
 		this.estoque = estoque;
 	}
+	//estes 2 gets servem para quando editar os produtos a máscara do money não alterar os valores
+	public String getValorTexto() {
+		return Float.toString(preco).replace('.',',');
+	}
+	public String getEstoqueTexto() {
+		return Float.toString(estoque).replace('.', ',');
+	}
 }

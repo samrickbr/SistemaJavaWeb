@@ -24,7 +24,7 @@ public class DaoUsuario {
 
 		try {
 			String sql = "insert into usuario(login, senha, nome, email, cep, rua, bairro, cidade, "
-					+ "uf, fotobase64, contenttype,curriculobase64, contenttypecurriculo) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					+ "uf, fotobase64, contenttype,curriculobase64, contenttypecurriculo, fotobase64Miniatura) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement insert = connection.prepareStatement(sql);
 			insert.setString(1, usuario.getLogin());
 			insert.setString(2, usuario.getSenha());
@@ -39,6 +39,7 @@ public class DaoUsuario {
 			insert.setString(11, usuario.getContentType());
 			insert.setString(12, usuario.getCurriculoBase64());
 			insert.setString(13, usuario.getContentTypeCurriculo());
+			insert.setString(14, usuario.getFotoBase64Miniatura());
 			insert.execute();
 
 			// ocorrendo tudo certo com a inserção a operação é commitada
@@ -155,7 +156,7 @@ public class DaoUsuario {
 
 			String sql = "update usuario set login = ?, senha = ?, nome = ?, email = ?, "
 					+ "cep = ?, rua = ?, bairro = ?, cidade = ?, uf = ?, fotobase64 = ?, "
-					+ "contenttype = ?, curriculobase64 = ?, contenttypecurriculo = ? where id = " + usuario.getId();
+					+ "contenttype = ?, curriculobase64 = ?, contenttypecurriculo = ?, fotobase64Miniatura = ? where id = " + usuario.getId();
 			PreparedStatement update = connection.prepareStatement(sql);
 			update.setString(1, usuario.getLogin());
 			update.setString(2, usuario.getSenha());
@@ -170,6 +171,7 @@ public class DaoUsuario {
 			update.setString(11, usuario.getContentType());
 			update.setString(12, usuario.getCurriculoBase64());
 			update.setString(13, usuario.getContentTypeCurriculo());
+			update.setString(14, usuario.getFotoBase64Miniatura());
 
 			update.executeUpdate();
 

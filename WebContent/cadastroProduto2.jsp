@@ -3,17 +3,16 @@
 	pageEncoding="ISO-8859-1"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Cadastro de Produto</title>
 
+<!-- 
 <script src="resources/javascript/jquery.min.js" type="text/javascript"></script>
 <script src="resources/javascript/jquery.maskMoney.min.js"
 	type="text/javascript"></script>
-
 <link rel="stylesheet" href="resources/css/tabela.css">
 <link rel="stylesheet" href="resources/css/estilo/bootstrap.min.css">
 <link rel="stylesheet" href="resources/css/estilo/font-awesome.min.css">
@@ -22,18 +21,19 @@
 <link rel="stylesheet" href="resources/css/estilo/owl.carousel.css">
 <link rel="stylesheet" href="resources/css/estilo/tooplate-style.css">
 <link rel="stylesheet" href="resources/css/tabela.css">
+ -->
 
 </head>
 <body>
+
 	<c:import url="menu.jsp"></c:import>
+	<div class="overlay"></div>
 	<section id="home" class="parallax-section">
-		<div class="overlay"></div>
 		<div class="container">
 			<div class="row">
 				<div class="col-md-offset-1 col-md-10 col-sm-12">
 					<div class="clearfix"></div>
 					<div class="col-md-offset-1 col-md-10 col-sm-12">
-						<!-- CONTACT FORM HERE -->
 
 						<form action="salvarProduto" method="post" id="formProduto"
 							class="material-form" id="quoteForm">
@@ -63,28 +63,19 @@
 							<div class="col-md-6 col-sm-6">
 								<label for="preco" class="label label-default">PREÇO:</label>
 								<!--  -->
-								<input type="text" id="preco" class="form-control" name="preco"
-									maxlength="20" value="${prod.valorTexto}" required="required"
-									placeholder="Preço">
+								<input type="text" id="preco" name="preco" maxlength="12"
+									value="${prod.preco}" required="required" placeholder="Preço">
 							</div>
 
 							<div class="col-md-6 col-sm-6">
 								<label for="estoque" class="label label-default">ESTOQUE:</label>
 								<input type="text" class="form-control" id="estoque"
-									maxlength="10" name="estoque" data-precision="3" value="${prod.estoqueTexto}"
+									maxlength="10" name="estoque" value="${prod.estoque}"
 									required="required" placeholder="Estoque">
 							</div>
-
-							<div>
-								<label>Teste</label>
-							</div>
-							<div>
-								<input type="text" id="teste">
-							</div>
 							<br /> <br />
-
 							<pre
-								style="color: orange; background-color: transparent; border: thin; font-size: medium;">${msg }</pre>
+								style="color: orange; background-color: transparent; border: thin; font-size: medium;">${msg}</pre>
 
 							<div class="col-md-6 col-sm-6">
 								<div class="section-btn">
@@ -124,12 +115,9 @@
 												<td style="width: 50px"><c:out value="${prod.id}"></c:out></td>
 												<td style="width: 100px"><c:out value="${prod.nome}"></c:out></td>
 												<td style="width: 100px"><c:out value="${prod.codigo}"></c:out></td>
-												<td style="width: 100px">R$ <fmt:formatNumber
-														type="number" minFractionDigits="2" value="${prod.preco}" />
-												</td>
-												<td style="width: 100px"><fmt:formatNumber
-														type="number" maxFractionDigits="3"
-														value="${prod.estoque}" /></td>
+												<td style="width: 100px"><c:out value="${prod.preco}"></c:out></td>
+												<td style="width: 100px"><c:out value="${prod.estoque}"></c:out></td>
+
 												<td style="width: 50px"><a
 													href="salvarProduto?acao=editar&prod=${prod.id}"><img
 														width="20px" height="20px" alt="Editar" title="Editar"
@@ -144,12 +132,14 @@
 								</div>
 							</div>
 						</form>
+
 					</div>
 				</div>
 			</div>
 		</div>
 
 	</section>
+	<!-- to-do retirar código duplicado das páginas, isto está fazendo o js não funcionar corretamente -->
 	<div>
 		<script type="text/javascript">
 			function validarCampos() {
@@ -174,14 +164,7 @@
 </body>
 <script type="text/javascript">
 	$(function() {
-		$('#preco').maskMoney({
-			thousands : '.',
-			decimal : ','
-		});
-		$('#estoque').maskMoney({
-			thousands : '.',
-			decimal : ',', 
-		});
+		$('#preco').maskMoney();
 	})
 </script>
 </html>
