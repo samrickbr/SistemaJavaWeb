@@ -1,5 +1,5 @@
 CREATE TABLE usuario(
-  id BIGINT NOT NULL,
+  id BIGSERIAL NOT NULL,
   login character varying(255),
   senha character varying(255),
   nome character varying(255),
@@ -9,25 +9,27 @@ CREATE TABLE usuario(
   bairro character varying(255),
   cidade character varying(255),
   uf character varying(255),
-  fotobase64 character varying(255),
+  fotobase64 character varying,
+  fotobase64miniatura character varying,
   contenttype character varying(255),
   curriculobase64 character varying(255),
-  contenttypecurriculo character varying(255),
+  contenttypecurriculo character varying,
   CONSTRAINT user_pkey PRIMARY KEY (id)
-)
+);
 
 CREATE TABLE produto(
-codigo bigint NOT NULL,
+codigo BIGSERIAL NOT NULL,
+barras BIGINT,
 nome character varying(255),
 preco FLOAT,
 estoque FLOAT,
 CONSTRAINT prod_pkey PRIMARY KEY (codigo)
-)
+);
 
 CREATE TABLE telefone(
-  id BIGINT NOT NULL,
+  id BIGSERIAL NOT NULL,
   numero character varying(20),
   tipo character varying(20),
-  usuario BIGINT 
+  usuario BIGINT,
   CONSTRAINT tel_pkey PRIMARY KEY (id)
-)
+);

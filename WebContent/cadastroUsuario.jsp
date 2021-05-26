@@ -5,6 +5,7 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
+
 <html>
 <head>
 
@@ -25,7 +26,9 @@
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
 	integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-	crossorigin="anonymous"></script>
+	crossorigin="anonymous" type="text/javascript">
+	
+</script>
 
 </head>
 
@@ -51,72 +54,72 @@
 
 							<br />
 							<div class="col-md-6 col-sm-6">
-								<label for="id" class="label label-default">ID:</label> <input
+								<label for="id" class="label label-default"> ID: </label> <input
 									type="text" class="form-control" id="id" readonly="readonly"
 									name="id" value="${user.id}">
 							</div>
 							<br /> <br /> <br />
 							<div class="col-md-6 col-sm-6">
-								<label for="nome" class="label label-default">NOME:</label> <input
+								<label for="nome" class="label label-default"> NOME: </label> <input
 									type="text" class="form-control" id="nome" name="nome"
 									maxlength="120" value="${user.nome}" required="required"
 									placeholder="Nome">
 							</div>
 
 							<div class="col-md-6 col-sm-6">
-								<label for="email" class="label label-default">E-MAIL:</label> <input
-									type="text" class="form-control" id="email" name="email"
+								<label for="email" class="label label-default"> E-MAIL:
+								</label> <input type="text" class="form-control" id="email" name="email"
 									maxlength="150" value="${user.email}" placeholder="E-mail">
 							</div>
 							<br /> <br /> <br />
 							<div class="col-md-6 col-sm-6">
-								<label for="login" class="label label-default">LOGIN:</label> <input
-									type="text" class="form-control" id="login" name="login"
+								<label for="login" class="label label-default"> LOGIN: </label>
+								<input type="text" class="form-control" id="login" name="login"
 									maxlength="100" value="${user.login}" required="required"
 									placeholder="Login">
 							</div>
 
 							<div class="col-md-6 col-sm-6">
-								<label for="senha" class="label label-default">SENHA:</label> <input
-									type="password" class="form-control" id="senha" name="senha"
-									maxlength="20" value="${user.senha}" required="required"
-									placeholder="Senha">
+								<label for="senha" class="label label-default"> SENHA: </label>
+								<input type="password" class="form-control" id="senha"
+									name="senha" maxlength="20" value="${user.senha}"
+									required="required" placeholder="Senha">
 							</div>
 							<br /> <br /> <br />
 							<div class="col-md-6 col-sm-6">
-								<label for="cep" class="label label-default">CEP:</label> <input
+								<label for="cep" class="label label-default"> CEP: </label> <input
 									type="number" class="form-control" id="cep" name="cep"
 									maxlength="8" value="${user.cep}"
 									placeholder="Cep Ex. 12345678" onblur="consultaCep();">
 							</div>
 
 							<div class="col-md-6 col-sm-6">
-								<label for="rua" class="label label-default">RUA:</label> <input
+								<label for="rua" class="label label-default"> RUA: </label> <input
 									title="text" class="form-control" id="rua" name="rua"
 									maxlength="100" value="${user.rua}" placeholder="Rua">
 							</div>
 							<br /> <br /> <br />
 							<div class="col-md-6 col-sm-6">
-								<label for="bairro" class="label label-default">Bairro:</label>
-								<input type="text" class="form-control" id="bairro"
+								<label for="bairro" class="label label-default"> Bairro:
+								</label> <input type="text" class="form-control" id="bairro"
 									maxlength="50" name="bairro" value="${user.bairro}"
 									placeholder="Bairro">
 							</div>
 							<div class="col-md-6 col-sm-6">
-								<label for="cidade" class="label label-default">CIDADE:</label>
-								<input type="text" class="form-control" id="cidade"
+								<label for="cidade" class="label label-default"> CIDADE:
+								</label> <input type="text" class="form-control" id="cidade"
 									maxlength="100" name="cidade" value="${user.cidade}"
 									placeholder="Cidade">
 							</div>
 							<br /> <br /> <br />
 							<div class="col-md-6 col-sm-6">
-								<label for="uf" class="label label-default">ESTADO:</label> <input
+								<label for="uf" class="label label-default"> ESTADO: </label> <input
 									type="text" class="form-control" id="uf" name="uf"
 									maxlength="2" value="${user.uf}" placeholder="Estado">
 							</div>
 							<br /> <br /> <br />
 							<div class="col-md-6 col-sm-6">
-								<label for="foto" class="label label-default">FOTO:</label> <input
+								<label for="foto" class="label label-default"> FOTO: </label> <input
 									type="file" class="form-control" id="foto" name="foto">
 								<input type="text" name="fotoTemp" readonly="readonly"
 									value="${user.fotoBase64}" hidden="true"> <input
@@ -125,11 +128,11 @@
 							</div>
 
 							<div class="col-md-6 col-sm-6">
-								<label for="curriculo" class="label label-default">Curriculo:</label>
-								<input type="file" class="form-control" id="curriculo"
-									name="curriculo"><input type="text"
+								<label for="curriculo" class="label label-default">
+									Curriculo: </label> <input type="file" class="form-control"
+									id="curriculo" name="curriculo"> <input type="text"
 									name="curriculoTemp" readonly="readonly"
-									value="${user.curriculoBase64}" hidden="true"><input
+									value="${user.curriculoBase64}" hidden="true"> <input
 									type="text" name="contentTypeTempCurriculo" readonly="readonly"
 									value="${user.contentTypeCurriculo}" hidden="true">
 							</div>
@@ -154,13 +157,15 @@
 								</c:if>
 							</div>
 							<pre
-								style="color: orange; text-align: center; flex-wrap; background-color: transparent; border: thin; font-size: medium;">${msg }</pre>
+								style="color: orange; text-align: center; flex-wrap; background-color: transparent; border: thin; font-size: medium;">
+										${msg }
+									</pre>
 
 							<div class="col-md-6 col-sm-6">
 								<div class="section-btn">
 									<button type="submit" class="form-control" id="salvar"
 										name="salvar" onclick="return validarCampos()? true:false;">
-										<span data-hover="Salvar" style="width: 100%">Salvar</span>
+										<span data-hover="Salvar" style="width: 100%"> Salvar </span>
 									</button>
 								</div>
 							</div>
@@ -169,7 +174,8 @@
 									<button type="submit" class="form-control" id="cancelar"
 										name="cancelar"
 										onclick="document.getElementById('formUser').action='salvarUsuario?acao=reset'">
-										<span data-hover="Cancelar" style="width: 100%">Cancelar</span>
+										<span data-hover="Cancelar" style="width: 100%">
+											Cancelar </span>
 									</button>
 								</div>
 							</div>
@@ -193,15 +199,19 @@
 										</thead>
 										<c:forEach items="${usuarios}" var="user">
 											<tr align="center">
-												<td style="width: 50px"><c:out value="${user.id}"></c:out></td>
-												<td style="width: 100px"><c:out value="${user.login}"></c:out></td>
-												<td style="width: 100px"><c:out value="${user.nome}"></c:out></td>
+												<td style="width: 50px"><c:out value="${user.id}">
+													</c:out></td>
+												<td style="width: 100px"><c:out value="${user.login}">
+													</c:out></td>
+												<td style="width: 100px"><c:out value="${user.nome}">
+													</c:out></td>
 
 												<c:if test="${user.fotoBase64.isEmpty() == false }">
 													<td style="width: 100px"><a
-														href="salvarUsuario?acao=download&tipo=imagem&user=${user.id}"><img
-															src='<c:out value="${user.tempFotoUser}"></c:out>'
-															width="32px" height="32px"></a></td>
+														href="salvarUsuario?acao=download&tipo=imagem&user=${user.id}">
+															<img src='<c:out value="${user.tempFotoUser}"></c:out>'
+															width="32px" height="32px">
+													</a></td>
 												</c:if>
 												<c:if test="${user.fotoBase64.isEmpty() == true}">
 													<td><img width="32px" height="32px" alt="Imagem User"
@@ -210,9 +220,10 @@
 
 												<c:if test="${user.curriculoBase64.isEmpty() == false }">
 													<td style="width: 100px"><a
-														href="salvarUsuario?acao=download&tipo=curriculo&user=${user.id}"><img
-															height="32px" width="32px" alt="Curriculo"
-															src="resources/img/pdf.png"></a></td>
+														href="salvarUsuario?acao=download&tipo=curriculo&user=${user.id}">
+															<img height="32px" width="32px" alt="Curriculo"
+															src="resources/img/pdf.png">
+													</a></td>
 												</c:if>
 												<c:if test="${user.curriculoBase64.isEmpty() == true }">
 													<td><img width="32px" height="32px" alt="Curriculo"
@@ -220,15 +231,17 @@
 												</c:if>
 
 												<td style="width: 50px"><a
-													href="salvarTelefones?acao=addFone&user=${user.id}"><img
+													href="salvarTelefones?acao=addFone&user=${user.id}"> <img
 														width="20px" height="20px" alt="Telefones"
-														title="Telefones" src="resources/img/phone.png"> </a></td>
+														title="Telefones" src="resources/img/phone.png">
+												</a></td>
 												<td style="width: 50px"><a
-													href="salvarUsuario?acao=editar&user=${user.id}"><img
+													href="salvarUsuario?acao=editar&user=${user.id}"> <img
 														width="20px" height="20px" alt="Editar" title="Editar"
-														src="resources/img/editar.png"> </a></td>
+														src="resources/img/editar.png">
+												</a></td>
 												<td style="width: 50px"><a
-													href="salvarUsuario?acao=delete&user=${user.id}"><img
+													href="salvarUsuario?acao=delete&user=${user.id}"> <img
 														width="20px" height="20px" alt="Excluir" title="Excluir"
 														src="resources/img/excluir.png"></a></td>
 											</tr>
@@ -258,7 +271,6 @@
 				}
 				return true;
 			}
-
 			//------------------------------------------------------------
 
 			/* Função para confirmar apagar dados do cadastro*/
@@ -282,67 +294,68 @@
 				}
 				return false;
 			}
+
 			//------------------------------------------------------------
-			/*
-			 *Consulta de CEP através do webservice viacep.com.br
-			 */
+			/* *Consulta de CEP através do webservice
+			viacep.com.br */
 			function limpa_formulário_cep() {
-				// Limpa valores do formulário de cep.
+				/* Limpa valores do formulário de cep. */
 				$("#cep").val("");
 				$("#rua").val("");
 				$("#bairro").val("");
 				$("#cidade").val("");
 				$("#uf").val("");
-				//$("#ibge").val("");
+				/* $("#ibge").val(""); 
+				 */
 			}
 
 			//------------------------------------------------------------
 			function consultaCep() {
 				var cep = $("#cep").val();
 
-				//Verifica se campo cep possui valor informado.
+				/* Verifica se campo cep possui valor informado. */
 				if (cep != "") {
 
-					//Expressão regular para validar o CEP.
+					/* Expressão regular para validar o CEP. */
 					var validacep = /^[0-9]{8}$/;
 
-					//Valida o formato do CEP.
+					/* Valida o formato do CEP. */
 					if (validacep.test(cep)) {
-						//Preenche os campos com "..." enquanto consulta webservice.
+						/* Preenche os campos com "..." enquanto consultawebservice. */
 						$("#rua").val("...");
 						$("#bairro").val("...");
 						$("#cidade").val("...");
 						$("#uf").val("...");
-						//$("#ibge").val("...");
+						/* $("#ibge").val("..."); */
 
-						//Consulta o webservice viacep.com.br/
-
-						//Consulta o webservice viacep.com.br/
+						/* Consulta o webservice viacep.com.br/ */
 						$.getJSON("https://viacep.com.br/ws/" + cep
-								+ "/json/?callback=?", function(dados) {
+								+ "/json/?callback=?",
 
+						function(dados) {
 							if (!("erro" in dados)) {
-								//Atualiza os campos com os valores da consulta.
+								/* Atualiza os campos com os valores da consulta. */
 								$("#rua").val(dados.logradouro);
 								$("#bairro").val(dados.bairro);
 								$("#cidade").val(dados.localidade);
 								$("#uf").val(dados.uf);
-								// $("#ibge").val(dados.ibge);
-							} //end if erro.
-							else {
-								//CEP pesquisado não foi encontrado.
+								/* $("#ibge").val(dados.ibge); */
+								/* end if erro. */
+							} else {
+								/* CEP pesquisado não foi encontrado. */
 								limpa_formulário_cep();
 								alert("CEP não encontrado.");
 							}
-						});//fim json
+						});
+						/* fim json */
 					} else {
-						//cep é inválido.
+						/* cep é inválido. */
 						limpa_formulário_cep();
 						alert("Formato de CEP inválido.");
 						$("#cep").val("");
 					}
 				} else {
-					//cep sem valor, limpa formulário.
+					/* cep sem valor, limpa formulário. */
 					limpa_formulário_cep();
 				}
 

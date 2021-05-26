@@ -17,8 +17,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import javax.swing.GrayFilter;
-import javax.swing.plaf.synth.SynthOptionPaneUI;
 import javax.xml.bind.DatatypeConverter;
 
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -297,7 +295,8 @@ public class Usuario extends HttpServlet {
 					if (imageFoto != null && imageFoto.getInputStream().available() > 0) {
 
 						byte[] bytesImagem = converteStreamParaByte(imageFoto.getInputStream());
-						String fotoBase64 = new Base64().encodeBase64String(bytesImagem);
+						new Base64();
+						String fotoBase64 = Base64.encodeBase64String(bytesImagem);
 						usuario.setFotoBase64(fotoBase64);
 						usuario.setContentType(imageFoto.getContentType());
 
