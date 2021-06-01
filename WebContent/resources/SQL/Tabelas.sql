@@ -12,7 +12,7 @@ CREATE TABLE usuario(
   fotobase64 character varying,
   fotobase64miniatura character varying,
   contenttype character varying(255),
-  curriculobase64 character varying(255),
+  curriculobase64 character varying,
   contenttypecurriculo character varying,
   CONSTRAINT user_pkey PRIMARY KEY (id)
 );
