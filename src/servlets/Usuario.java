@@ -58,7 +58,7 @@ public class Usuario extends HttpServlet {
 			try {
 				// criar um dispatcher para setar a variï¿½vel e listar os
 				// usuï¿½rios
-				request.setAttribute("msg", "Usuário deletado com sucesso!");
+				request.setAttribute("msg", "Usuï¿½rio deletado com sucesso!");
 
 				RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
 				// atributos da requisiï¿½ï¿½o = usuarios (estï¿½ setando os atributos
@@ -69,7 +69,7 @@ public class Usuario extends HttpServlet {
 				view.forward(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();
-				request.setAttribute("msg", "Não foi possível deletar o usuário selecionado.");
+				request.setAttribute("msg", "Nï¿½o foi possï¿½vel deletar o usuï¿½rio selecionado.");
 			}
 			// -----------------------------------------------------------------------
 		} else if (acao.equals("editar")) {
@@ -77,7 +77,7 @@ public class Usuario extends HttpServlet {
 			try {
 				beanUsuarioJsp = daoUsuario.consultar(user);
 
-				request.setAttribute("msg", "Cadastro em edição!");
+				request.setAttribute("msg", "Cadastro em ediï¿½ï¿½o!");
 				// redirecionar para a pï¿½gina com a tabela dos cadastros
 
 				// criar um dispatcher para setar a variï¿½vel e listar os
@@ -110,7 +110,7 @@ public class Usuario extends HttpServlet {
 				// criar um dispatcher para setar a variï¿½vel e listar os
 				// usuï¿½rios
 				RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
-				// atributos da requisição = usuarios (está setando os atributos
+				// atributos da requisiï¿½ï¿½o = usuarios (estï¿½ setando os atributos
 				// que vem do daoUsuario
 				// para a page cadastroUsuario no parametro "item" da tabela
 				request.setAttribute("usuarios", daoUsuario.listar());
@@ -122,7 +122,7 @@ public class Usuario extends HttpServlet {
 			// -----------------------------------------------------------------------
 		} else if (acao.equalsIgnoreCase("listartodos")) {
 			RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
-			// atributos da requisição = usuarios (está setando os atributos que
+			// atributos da requisiï¿½ï¿½o = usuarios (estï¿½ setando os atributos que
 			// vem do daoUsuario
 			// para a page cadastroUsuario no parametro "item" da tabela
 			try {
@@ -215,28 +215,28 @@ public class Usuario extends HttpServlet {
 			daoUsuario.delFoto(user);
 
 			try {
-				request.setAttribute("msg", "Foto do usuário apagada!");
+				request.setAttribute("msg", "Foto do usuï¿½rio apagada!");
 
 				RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
 				request.setAttribute("usuarios", daoUsuario.listar());
 				view.forward(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();
-				request.setAttribute("msg", "Não foi possível apagar a foto do usuário selecionado.");
+				request.setAttribute("msg", "Nï¿½o foi possï¿½vel apagar a foto do usuï¿½rio selecionado.");
 			}
 		} else if (acao != null && acao.equals("delPdf")) {
 
 			daoUsuario.delPdf(user);
 
 			try {
-				request.setAttribute("msg", "Curriculo do usuário apagado!");
+				request.setAttribute("msg", "Curriculo do usuï¿½rio apagado!");
 
 				RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
 				request.setAttribute("usuarios", daoUsuario.listar());
 				view.forward(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();
-				request.setAttribute("msg", "Não foi possível apagar o curriculo do usuário selecionado.");
+				request.setAttribute("msg", "Nï¿½o foi possï¿½vel apagar o curriculo do usuï¿½rio selecionado.");
 			}
 		} else {
 			// Salvar, alterar usuï¿½rio
@@ -288,7 +288,7 @@ public class Usuario extends HttpServlet {
 
 				/** Inicio "File Upload" de imagens e PDF */
 
-				// verifica se é um formulário de upload
+				// verifica se ï¿½ um formulï¿½rio de upload
 				if (ServletFileUpload.isMultipartContent(request)) {
 
 					Part imageFoto = request.getPart("foto");
@@ -300,9 +300,10 @@ public class Usuario extends HttpServlet {
 						usuario.setFotoBase64(fotoBase64);
 						usuario.setContentType(imageFoto.getContentType());
 
-						/* Fazer miniatura da imagem para não pesar o DB */
+						/* Fazer miniatura da imagem para nï¿½o pesar o DB */
 						/* transformar em um bufferedImage */
-						BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(bytesImagem));
+						byte[] imageByteDecode = new Base64().decodeBase64(fotoBase64);
+						BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(imageByteDecode));
 						/* pega o tipo da imgem */
 						int type = bufferedImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : bufferedImage.getType();
 						/* cria imagem em miniatura */
@@ -312,7 +313,8 @@ public class Usuario extends HttpServlet {
 
 						/* Escrever imagem novamente */
 						ByteArrayOutputStream baos = new ByteArrayOutputStream();
-						ImageIO.write(resizedImage, "png", baos);
+						ImageIO.write(bufferedImage, "png", baos);
+						g.dispose();
 
 						String miniaturaBase64 = "data:image/png;base64,"
 								+ DatatypeConverter.printBase64Binary(baos.toByteArray());
@@ -320,7 +322,7 @@ public class Usuario extends HttpServlet {
 						System.out.println(miniaturaBase64);
 						/* Salva no DB */
 						usuario.setFotoBase64Miniatura(miniaturaBase64);
-						/* Fim código miniaturização de imagem */
+						/* Fim cï¿½digo miniaturizaï¿½ï¿½o de imagem */
 					} else {
 						usuario.setFotoBase64(request.getParameter("fotoTemp"));
 						usuario.setContentType(request.getParameter("contentTypeTemp"));
@@ -353,24 +355,24 @@ public class Usuario extends HttpServlet {
 				// validaï¿½ï¿½o de usuï¿½rio novo
 				if (id == null || id.isEmpty() //
 						&& !daoUsuario.validarLogin(login)) {
-					msg.append("O login escolhido já existe. \n");
+					msg.append("O login escolhido jï¿½ existe. \n");
 					podeValidar = false;
 				} else if (id == null || id.isEmpty() //
 						&& !daoUsuario.validarSenha(senha)) {
 					podeValidar = false;
-					msg.append("A senha escolhida não pode ser usada. \n");
+					msg.append("A senha escolhida nï¿½o pode ser usada. \n");
 				}
 
 				// caso passe pela validaï¿½ï¿½o, cadastra o novo usuï¿½rio
 
 				if (id == null || id.isEmpty() && daoUsuario.validarLogin(login) && podeValidar) {
 					daoUsuario.salvar(usuario);
-					msg.append("Usuário Cadastrado com sucesso! \n");
+					msg.append("Usuï¿½rio Cadastrado com sucesso! \n");
 				} else if (id != null && !id.isEmpty() && podeValidar) {
 
 					// caso passe pela validaï¿½ï¿½o,altera o usuï¿½rio
 					daoUsuario.edit(usuario);
-					msg.append("Usuário alterado com sucesso! \n");
+					msg.append("Usuï¿½rio alterado com sucesso! \n");
 				}
 
 				// mensagem de retorno

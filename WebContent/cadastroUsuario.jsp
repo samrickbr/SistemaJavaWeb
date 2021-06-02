@@ -206,14 +206,15 @@
 												<td style="width: 100px"><c:out value="${user.nome}">
 													</c:out></td>
 
-												<c:if test="${user.fotoBase64.isEmpty() == false }">
+												<c:if test="${user.fotoBase64Miniatura.isEmpty() == false }">
 													<td style="width: 100px"><a
 														href="salvarUsuario?acao=download&tipo=imagem&user=${user.id}">
-															<img src='<c:out value="${user.tempFotoUser}"></c:out>'
+															<img
+															src='<c:out value="${user.fotoBase64Miniatura}"></c:out>'
 															width="32px" height="32px">
 													</a></td>
 												</c:if>
-												<c:if test="${user.fotoBase64.isEmpty() == true}">
+												<c:if test="${user.fotoBase64Miniatura.isEmpty() == true}">
 													<td><img width="32px" height="32px" alt="Imagem User"
 														src="resources/img/user.jpg"></td>
 												</c:if>
@@ -240,10 +241,19 @@
 														width="20px" height="20px" alt="Editar" title="Editar"
 														src="resources/img/editar.png">
 												</a></td>
-												<td style="width: 50px"><a
-													href="salvarUsuario?acao=delete&user=${user.id}"> <img
+
+												<!-- 
+												<td style="width: 50px"><button
+														onclick="return apagarUser()? true:false;">
+														<img width="20px" height="20px" alt="Excluir"
+													href="salvarUsuario?acao=delete&user=${user.id}"> 
+															title="Excluir" src="resources/img/excluir.png">
+													</button></td>
+														 -->
+												<td style="width: 50px"><a href="salvarUsuario?acao=delete&user=${user.id}"> <img
 														width="20px" height="20px" alt="Excluir" title="Excluir"
 														src="resources/img/excluir.png"></a></td>
+
 											</tr>
 										</c:forEach>
 									</table>
@@ -273,7 +283,7 @@
 			}
 			//------------------------------------------------------------
 
-			/* Função para confirmar apagar dados do cadastro*/
+			/* Função para confirmar apagar foto do cadastro*/
 			function apagarFoto() {
 				deletarFoto = confirm('Deseja apagar a Foto do cadastro?');
 				if (deletarFoto) {
@@ -284,12 +294,23 @@
 				return false;
 			}
 			//------------------------------------------------------------
-			/* Função para confirmar apagar dados do cadastro*/
+			/* Função para confirmar apagar pdf do cadastro*/
 			function apagarPdf() {
 				deletarPdf = confirm('Deseja apagar o Curriculo do cadastro?');
 				if (deletarPdf) {
 					document.getElementById('formUser').action = 'salvarUsuario?acao=delPdf&user=${user.id}';
 					alert("O curriculo foi deletado!");
+					return true;
+				}
+				return false;
+			}
+			//------------------------------------------------------------
+			/* Função para confirmar apagar usuario do cadastro*/
+			function apagarUser() {
+				deletarUser = confirm('Deseja apagar o Usuário?\n\nAção não pode ser desfeita!');
+				if (deletarUser) {
+					document.getElementById('formUser').action = 'salvarUsuario?acao=delete&user=${user.id}';
+					alert("O Usuario foi deletado!");
 					return true;
 				}
 				return false;

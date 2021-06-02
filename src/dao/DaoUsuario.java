@@ -42,14 +42,14 @@ public class DaoUsuario {
 			insert.setString(14, usuario.getFotoBase64Miniatura());
 			insert.execute();
 
-			// ocorrendo tudo certo com a inserção a operação é commitada
+			// ocorrendo tudo certo com a inserï¿½ï¿½o a operaï¿½ï¿½o ï¿½ commitada
 			connection.commit();
 
 		} catch (Exception e) {
 			e.printStackTrace();
 
 			try {
-				// caso ocorra erro na inserção, a operação é cancelada
+				// caso ocorra erro na inserï¿½ï¿½o, a operaï¿½ï¿½o ï¿½ cancelada
 				connection.rollback();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
@@ -58,7 +58,7 @@ public class DaoUsuario {
 	}
 
 	// =============================================================
-	// método para listar todos os usuários cadastrados
+	// mï¿½todo para listar todos os usuï¿½rios cadastrados
 	public List<BeanUsuarioJsp> listar() throws Exception {
 		// criar um novo objeto de lista
 		List<BeanUsuarioJsp> listar = new ArrayList<BeanUsuarioJsp>();
@@ -82,7 +82,8 @@ public class DaoUsuario {
 			usuario.setBairro(resultSet.getString("bairro"));
 			usuario.setCidade(resultSet.getString("cidade"));
 			usuario.setUf(resultSet.getString("uf"));
-			usuario.setFotoBase64(resultSet.getString("fotobase64"));
+			//usuario.setFotoBase64(resultSet.getString("fotobase64"));
+			usuario.setFotoBase64Miniatura(resultSet.getString("fotobase64miniatura"));
 			usuario.setContentType(resultSet.getString("contenttype"));
 			usuario.setCurriculoBase64(resultSet.getString("curriculobase64"));
 			usuario.setContentTypeCurriculo(resultSet.getString("contenttypecurriculo"));
@@ -115,7 +116,7 @@ public class DaoUsuario {
 	public void delFoto(String id) {
 		try {
 
-			String sql = "update usuario set fotobase64 = '', contenttype = '' where id = '" + id + "'";
+			String sql = "update usuario set fotobase64miniatura = '', fotobase64 = '', contenttype = '' where id = '" + id + "'";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.executeUpdate();
 
@@ -207,6 +208,7 @@ public class DaoUsuario {
 			usuario.setCidade(resultSet.getString("cidade"));
 			usuario.setUf(resultSet.getString("uf"));
 			usuario.setFotoBase64(resultSet.getString("fotobase64"));
+			usuario.setFotoBase64Miniatura(resultSet.getString("fotobase64miniatura"));
 			usuario.setContentType(resultSet.getString("contenttype"));
 			usuario.setCurriculoBase64(resultSet.getString("curriculobase64"));
 			usuario.setContentTypeCurriculo(resultSet.getString("contenttypecurriculo"));
@@ -228,8 +230,8 @@ public class DaoUsuario {
 		if (resultSet.next()) {
 
 			return resultSet.getInt("qtd") <= 0;/*
-												 * se não existir um login igual o count retorna '0' e o return tendo
-												 * qtd <= 0 é true.
+												 * se nï¿½o existir um login igual o count retorna '0' e o return tendo
+												 * qtd <= 0 ï¿½ true.
 												 */
 
 		} else {
@@ -247,8 +249,8 @@ public class DaoUsuario {
 		if (resultSet.next()) {
 
 			return resultSet.getInt("qtd") <= 0;/*
-												 * se não existir um login igual o count retorna '0' e o return tendo
-												 * qtd <= 0 é true.
+												 * se nï¿½o existir um login igual o count retorna '0' e o return tendo
+												 * qtd <= 0 ï¿½ true.
 												 */
 
 		} else {
@@ -266,8 +268,8 @@ public class DaoUsuario {
 		if (resultSet.next()) {
 
 			return resultSet.getInt("qtd") <= 0;/*
-												 * se não existir um login igual o count retorna '0' e o return tendo
-												 * qtd <= 0 é true.
+												 * se nï¿½o existir um login igual o count retorna '0' e o return tendo
+												 * qtd <= 0 ï¿½ true.
 												 */
 
 		} else {
