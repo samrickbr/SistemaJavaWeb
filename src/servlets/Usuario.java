@@ -58,7 +58,7 @@ public class Usuario extends HttpServlet {
 			try {
 				// criar um dispatcher para setar a vari�vel e listar os
 				// usu�rios
-				request.setAttribute("msg", "Usu�rio deletado com sucesso!");
+				request.setAttribute("msg", "Usuário deletado com sucesso!");
 
 				RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
 				// atributos da requisi��o = usuarios (est� setando os atributos
@@ -69,7 +69,7 @@ public class Usuario extends HttpServlet {
 				view.forward(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();
-				request.setAttribute("msg", "N�o foi poss�vel deletar o usu�rio selecionado.");
+				request.setAttribute("msg", "Não foi possível deletar o usuário selecionado.");
 			}
 			// -----------------------------------------------------------------------
 		} else if (acao.equals("editar")) {
@@ -77,7 +77,7 @@ public class Usuario extends HttpServlet {
 			try {
 				beanUsuarioJsp = daoUsuario.consultar(user);
 
-				request.setAttribute("msg", "Cadastro em edi��o!");
+				request.setAttribute("msg", "Cadastro em edição!");
 				// redirecionar para a p�gina com a tabela dos cadastros
 
 				// criar um dispatcher para setar a vari�vel e listar os
@@ -215,28 +215,28 @@ public class Usuario extends HttpServlet {
 			daoUsuario.delFoto(user);
 
 			try {
-				request.setAttribute("msg", "Foto do usu�rio apagada!");
+				request.setAttribute("msg", "Foto do usuário apagada!");
 
 				RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
 				request.setAttribute("usuarios", daoUsuario.listar());
 				view.forward(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();
-				request.setAttribute("msg", "N�o foi poss�vel apagar a foto do usu�rio selecionado.");
+				request.setAttribute("msg", "Não foi possível apagar a foto do usuário selecionado.");
 			}
 		} else if (acao != null && acao.equals("delPdf")) {
 
 			daoUsuario.delPdf(user);
 
 			try {
-				request.setAttribute("msg", "Curriculo do usu�rio apagado!");
+				request.setAttribute("msg", "Curriculo do usuário apagado!");
 
 				RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
 				request.setAttribute("usuarios", daoUsuario.listar());
 				view.forward(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();
-				request.setAttribute("msg", "N�o foi poss�vel apagar o curriculo do usu�rio selecionado.");
+				request.setAttribute("msg", "Não foi possível apagar o curriculo do usuário selecionado.");
 			}
 		} else {
 			// Salvar, alterar usu�rio
@@ -360,24 +360,24 @@ public class Usuario extends HttpServlet {
 				// valida��o de usu�rio novo
 				if (id == null || id.isEmpty() //
 						&& !daoUsuario.validarLogin(login)) {
-					msg.append("O login escolhido j� existe. \n");
+					msg.append("\nO login escolhido já existe.");
 					podeValidar = false;
 				} else if (id == null || id.isEmpty() //
 						&& !daoUsuario.validarSenha(senha)) {
 					podeValidar = false;
-					msg.append("A senha escolhida n�o pode ser usada. \n");
+					msg.append("A senha escolhida não pode ser usada. \n");
 				}
 
 				// caso passe pela valida��o, cadastra o novo usu�rio
 
 				if (id == null || id.isEmpty() && daoUsuario.validarLogin(login) && podeValidar) {
 					daoUsuario.salvar(usuario);
-					msg.append("Usu�rio Cadastrado com sucesso! \n");
+					msg.append("Usuário Cadastrado com sucesso! \n");
 				} else if (id != null && !id.isEmpty() && podeValidar) {
 
 					// caso passe pela valida��o,altera o usu�rio
 					daoUsuario.edit(usuario);
-					msg.append("Usu�rio alterado com sucesso! \n");
+					msg.append("Usuário alterado com sucesso! \n");
 				}
 
 				// mensagem de retorno

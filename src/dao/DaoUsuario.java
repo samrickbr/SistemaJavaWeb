@@ -63,7 +63,7 @@ public class DaoUsuario {
 		// criar um novo objeto de lista
 		List<BeanUsuarioJsp> listar = new ArrayList<BeanUsuarioJsp>();
 
-		String sql = "select * from usuario";
+		String sql = "select * from usuario where login <> 'admin'";
 
 		PreparedStatement statement = connection.prepareStatement(sql);
 		ResultSet resultSet = statement.executeQuery();
@@ -97,7 +97,7 @@ public class DaoUsuario {
 	public void delete(String id) {
 		try {
 
-			String sql = "delete from usuario where id = '" + id + "'";
+			String sql = "delete from usuario where id = '" + id + "' and login <> 'admin'";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.execute();
 
@@ -190,7 +190,7 @@ public class DaoUsuario {
 
 	// =============================================================
 	public BeanUsuarioJsp consultar(String id) throws Exception {
-		String sql = "select * from usuario where id = '" + id + "' ";
+		String sql = "select * from usuario where id = '" + id + "' and login <> 'admin'";
 		PreparedStatement preparedStatement = connection.prepareStatement(sql);
 		ResultSet resultSet = preparedStatement.executeQuery();
 

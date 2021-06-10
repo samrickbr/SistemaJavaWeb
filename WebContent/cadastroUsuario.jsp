@@ -157,8 +157,8 @@
 								</c:if>
 							</div>
 							<pre
-								style="color: orange; text-align: center; flex-wrap; background-color: transparent; border: thin; font-size: medium;">
-										${msg }
+								style="color: orange; text-align: center; background-color: transparent; border: thin; font-size: medium;">
+										${msg}
 									</pre>
 
 							<div class="col-md-6 col-sm-6">
@@ -250,10 +250,10 @@
 															title="Excluir" src="resources/img/excluir.png">
 													</button></td>
 														 -->
-												<td style="width: 50px"><a href="salvarUsuario?acao=delete&user=${user.id}"> <img
+												<td style="width: 50px"><a
+													href="salvarUsuario?acao=delete&user=${user.id}"> <img
 														width="20px" height="20px" alt="Excluir" title="Excluir"
 														src="resources/img/excluir.png"></a></td>
-
 											</tr>
 										</c:forEach>
 									</table>
@@ -263,9 +263,9 @@
 					</div>
 				</div>
 			</div>
+			<hr>
 		</div>
 	</section>
-
 	<div>
 		<script type="text/javascript">
 			function validarCampos() {
@@ -366,6 +366,7 @@
 								/* CEP pesquisado não foi encontrado. */
 								limpa_formulário_cep();
 								alert("CEP não encontrado.");
+								$("#cep").focus();
 							}
 						});
 						/* fim json */
@@ -374,15 +375,14 @@
 						limpa_formulário_cep();
 						alert("Formato de CEP inválido.");
 						$("#cep").val("");
+						$("#cep").focus();
 					}
 				} else {
 					/* cep sem valor, limpa formulário. */
 					limpa_formulário_cep();
 				}
-
 			}
 		</script>
 	</div>
-
 </body>
 </html>
