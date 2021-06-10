@@ -294,9 +294,14 @@ public class Usuario extends HttpServlet {
 					Part imageFoto = request.getPart("foto");
 					if (imageFoto != null && imageFoto.getInputStream().available() > 0) {
 
-						byte[] bytesImagem = converteStreamParaByte(imageFoto.getInputStream());
-						new Base64();
-						String fotoBase64 = Base64.encodeBase64String(bytesImagem);
+						/*
+						 * byte[] bytesImagem = converteStreamParaByte(imageFoto.getInputStream()); new
+						 * Base64(); String fotoBase64 = Base64.encodeBase64String(bytesImagem);
+						 */
+
+						String fotoBase64 = new Base64()
+								.encodeBase64String(converteStreamParaByte(imageFoto.getInputStream()));
+
 						usuario.setFotoBase64(fotoBase64);
 						usuario.setContentType(imageFoto.getContentType());
 
@@ -309,12 +314,12 @@ public class Usuario extends HttpServlet {
 						/* cria imagem em miniatura */
 						BufferedImage resizedImage = new BufferedImage(100, 100, type);
 						Graphics2D g = resizedImage.createGraphics();
-						g.drawImage(resizedImage, 0, 0, 100, 100, null);
+						g.drawImage(bufferedImage, 0, 0, 100, 100, null);
+						g.dispose();
 
 						/* Escrever imagem novamente */
 						ByteArrayOutputStream baos = new ByteArrayOutputStream();
-						ImageIO.write(bufferedImage, "png", baos);
-						g.dispose();
+						ImageIO.write(resizedImage, "png", baos);
 
 						String miniaturaBase64 = "data:image/png;base64,"
 								+ DatatypeConverter.printBase64Binary(baos.toByteArray());
