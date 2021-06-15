@@ -23,9 +23,32 @@ public class DaoUsuario {
 		// insert dos dados no DB
 
 		try {
-			String sql = "insert into usuario(login, senha, nome, email, cep, rua, bairro, cidade, "
-					+ "uf, fotobase64, contenttype,curriculobase64, contenttypecurriculo, fotobase64Miniatura) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-			PreparedStatement insert = connection.prepareStatement(sql);
+			StringBuilder sql = new StringBuilder();
+
+			sql.append(" insert into usuario(login, senha, nome, email, cep, rua, bairro, cidade, uf ");
+
+			if (usuario.isAtualizarImagem()) {
+				sql.append(" ,fotobase64, contenttype,");
+			}
+			if (usuario.isAtualizarPdf()) {
+				sql.append(" ,curriculobase64, contenttypecurriculo ");
+			}
+			if (usuario.isAtualizarImagem()) {
+				sql.append(" ,fotobase64Miniatura");
+			}
+			sql.append(" ) values (?, ?, ?, ?, ?, ?, ?, ?, ?");
+			if (usuario.isAtualizarImagem()) {
+				sql.append(" , ?, ?");
+			}
+			if (usuario.isAtualizarPdf()) {
+				sql.append(" , ?, ? ");
+			}
+			if (usuario.isAtualizarImagem()) {
+				sql.append(" , ?");
+			}
+			sql.append(" )");
+
+			PreparedStatement insert = connection.prepareStatement(sql.toString());
 			insert.setString(1, usuario.getLogin());
 			insert.setString(2, usuario.getSenha());
 			insert.setString(3, usuario.getNome());
@@ -35,11 +58,28 @@ public class DaoUsuario {
 			insert.setString(7, usuario.getBairro());
 			insert.setString(8, usuario.getCidade());
 			insert.setString(9, usuario.getUf());
-			insert.setString(10, usuario.getFotoBase64());
-			insert.setString(11, usuario.getContentType());
-			insert.setString(12, usuario.getCurriculoBase64());
-			insert.setString(13, usuario.getContentTypeCurriculo());
-			insert.setString(14, usuario.getFotoBase64Miniatura());
+
+			if (usuario.isAtualizarImagem()) {
+				insert.setString(10, usuario.getFotoBase64());
+				insert.setString(11, usuario.getContentType());
+			}
+
+			if (usuario.isAtualizarPdf()) {
+				if (usuario.isAtualizarPdf() && !usuario.isAtualizarImagem()) {
+					insert.setString(10, usuario.getCurriculoBase64());
+					insert.setString(11, usuario.getContentTypeCurriculo());
+				} else {
+					insert.setString(12, usuario.getCurriculoBase64());
+					insert.setString(13, usuario.getContentTypeCurriculo());
+				}
+			} else {
+				if (usuario.isAtualizarImagem()) {
+					insert.setString(12, usuario.getFotoBase64Miniatura());
+				}
+			}
+			if (usuario.isAtualizarImagem() && usuario.isAtualizarPdf()) {
+				insert.setString(14, usuario.getFotoBase64Miniatura());
+			}
 			insert.execute();
 
 			// ocorrendo tudo certo com a inser��o a opera��o � commitada
@@ -82,7 +122,7 @@ public class DaoUsuario {
 			usuario.setBairro(resultSet.getString("bairro"));
 			usuario.setCidade(resultSet.getString("cidade"));
 			usuario.setUf(resultSet.getString("uf"));
-			//usuario.setFotoBase64(resultSet.getString("fotobase64"));
+			// usuario.setFotoBase64(resultSet.getString("fotobase64"));
 			usuario.setFotoBase64Miniatura(resultSet.getString("fotobase64miniatura"));
 			usuario.setContentType(resultSet.getString("contenttype"));
 			usuario.setCurriculoBase64(resultSet.getString("curriculobase64"));
@@ -116,7 +156,8 @@ public class DaoUsuario {
 	public void delFoto(String id) {
 		try {
 
-			String sql = "update usuario set fotobase64miniatura = '', fotobase64 = '', contenttype = '' where id = '" + id + "'";
+			String sql = "update usuario set fotobase64miniatura = '', fotobase64 = '', contenttype = '' where id = '"
+					+ id + "'";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.executeUpdate();
 
@@ -154,11 +195,27 @@ public class DaoUsuario {
 	// =============================================================
 	public void edit(BeanUsuarioJsp usuario) {
 		try {
+			StringBuilder sql = new StringBuilder();
 
-			String sql = "update usuario set login = ?, senha = ?, nome = ?, email = ?, "
-					+ "cep = ?, rua = ?, bairro = ?, cidade = ?, uf = ?, fotobase64 = ?, "
-					+ "contenttype = ?, curriculobase64 = ?, contenttypecurriculo = ?, fotobase64Miniatura = ? where id = " + usuario.getId();
-			PreparedStatement update = connection.prepareStatement(sql);
+			sql.append(" update usuario set login = ?, senha = ?, nome = ?, email = ?, ");
+			sql.append(" cep = ?, rua = ?, bairro = ?, cidade = ?, uf = ? ");
+
+			if (usuario.isAtualizarImagem()) {
+				sql.append(" , fotobase64 = ?, contenttype = ? ");
+			}
+
+			if (usuario.isAtualizarPdf()) {
+				sql.append(" , curriculobase64 = ?, contenttypecurriculo = ? ");
+			}
+
+			if (usuario.isAtualizarImagem()) {
+				sql.append(" , fotobase64Miniatura = ? ");
+			}
+
+			sql.append(" where id = " + usuario.getId());
+
+			PreparedStatement update = connection.prepareStatement(sql.toString());
+
 			update.setString(1, usuario.getLogin());
 			update.setString(2, usuario.getSenha());
 			update.setString(3, usuario.getNome());
@@ -168,11 +225,29 @@ public class DaoUsuario {
 			update.setString(7, usuario.getBairro());
 			update.setString(8, usuario.getCidade());
 			update.setString(9, usuario.getUf());
-			update.setString(10, usuario.getFotoBase64());
-			update.setString(11, usuario.getContentType());
-			update.setString(12, usuario.getCurriculoBase64());
-			update.setString(13, usuario.getContentTypeCurriculo());
-			update.setString(14, usuario.getFotoBase64Miniatura());
+
+			if (usuario.isAtualizarImagem()) {
+				update.setString(10, usuario.getFotoBase64());
+				update.setString(11, usuario.getContentType());
+			}
+
+			if (usuario.isAtualizarPdf()) {
+				if (usuario.isAtualizarPdf() && !usuario.isAtualizarImagem()) {
+					update.setString(10, usuario.getCurriculoBase64());
+					update.setString(11, usuario.getContentTypeCurriculo());
+				} else {
+					update.setString(12, usuario.getCurriculoBase64());
+					update.setString(13, usuario.getContentTypeCurriculo());
+				}
+			} else {
+				if (usuario.isAtualizarImagem()) {
+					update.setString(12, usuario.getFotoBase64Miniatura());
+				}
+			}
+			
+			if (usuario.isAtualizarImagem() && usuario.isAtualizarPdf()) {
+				update.setString(14, usuario.getFotoBase64Miniatura());
+			}
 
 			update.executeUpdate();
 

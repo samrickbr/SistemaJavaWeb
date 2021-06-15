@@ -121,20 +121,12 @@
 							<div class="col-md-6 col-sm-6">
 								<label for="foto" class="label label-default"> FOTO: </label> <input
 									type="file" class="form-control" id="foto" name="foto">
-								<input type="text" name="fotoTemp" readonly="readonly"
-									value="${user.fotoBase64}" hidden="true"> <input
-									type="text" name="contentTypeTemp" readonly="readonly"
-									value="${user.contentType}" hidden="true">
 							</div>
 
 							<div class="col-md-6 col-sm-6">
 								<label for="curriculo" class="label label-default">
 									Curriculo: </label> <input type="file" class="form-control"
-									id="curriculo" name="curriculo"> <input type="text"
-									name="curriculoTemp" readonly="readonly"
-									value="${user.curriculoBase64}" hidden="true"> <input
-									type="text" name="contentTypeTempCurriculo" readonly="readonly"
-									value="${user.contentTypeCurriculo}" hidden="true">
+									id="curriculo" name="curriculo">
 							</div>
 							<div align="center" class="col-md-6 col-sm-6">
 								<c:if test="${user.fotoBase64.isEmpty() == false}">
@@ -145,6 +137,15 @@
 										'Apagar Foto'
 									</button>
 								</c:if>
+
+								<c:if test="${user.fotoBase64.isEmpty() == true}">
+									<button style="width: 180px" disabled="disabled">
+										<img width="20px" height="20px" alt="Apagar Foto"
+											title="Apagar Foto" src="resources/img/excluir.png">
+										'Apagar Foto'
+									</button>
+								</c:if>
+
 							</div>
 							<div align="center" class="col-md-6 col-sm-6">
 								<c:if test="${user.curriculoBase64.isEmpty() == false}">
@@ -155,11 +156,24 @@
 										'Apagar Curriculo'
 									</button>
 								</c:if>
+
+								<c:if test="${user.curriculoBase64.isEmpty() == true}">
+									<button style="width: 180px" disabled="disabled">
+										<img width="20px" height="20px" alt="Apagar Curriculo"
+											title="Apagar Curriculo" src="resources/img/excluir.png">
+										'Apagar Curriculo'
+									</button>
+								</c:if>
 							</div>
+							<!-- 
 							<pre
 								style="color: orange; text-align: center; background-color: transparent; border: thin; font-size: medium;">
 										${msg}
 									</pre>
+							 -->
+							<br>
+							<hr>
+							<h3 align="center" style="color: orange;">${msg}</h3>
 
 							<div class="col-md-6 col-sm-6">
 								<div class="section-btn">
@@ -209,9 +223,8 @@
 												<c:if test="${user.fotoBase64Miniatura.isEmpty() == false }">
 													<td style="width: 100px"><a
 														href="salvarUsuario?acao=download&tipo=imagem&user=${user.id}">
-															<img
-															src='<c:out value="${user.fotoBase64Miniatura}"></c:out>'
-															width="32px" height="32px">
+															<img width="32px" height="32px"
+															src='<c:out value="${user.fotoBase64Miniatura}"></c:out>'>
 													</a></td>
 												</c:if>
 												<c:if test="${user.fotoBase64Miniatura.isEmpty() == true}">
@@ -226,7 +239,7 @@
 															src="resources/img/pdf.png">
 													</a></td>
 												</c:if>
-												<c:if test="${user.curriculoBase64.isEmpty() == true }">
+												<c:if test="${user.curriculoBase64.isEmpty() == true}">
 													<td><img width="32px" height="32px" alt="Curriculo"
 														src="resources/img/semPdf.png"></td>
 												</c:if>
@@ -236,20 +249,13 @@
 														width="20px" height="20px" alt="Telefones"
 														title="Telefones" src="resources/img/phone.png">
 												</a></td>
+
 												<td style="width: 50px"><a
 													href="salvarUsuario?acao=editar&user=${user.id}"> <img
 														width="20px" height="20px" alt="Editar" title="Editar"
 														src="resources/img/editar.png">
 												</a></td>
 
-												<!-- 
-												<td style="width: 50px"><button
-														onclick="return apagarUser()? true:false;">
-														<img width="20px" height="20px" alt="Excluir"
-													href="salvarUsuario?acao=delete&user=${user.id}"> 
-															title="Excluir" src="resources/img/excluir.png">
-													</button></td>
-														 -->
 												<td style="width: 50px"><a
 													href="salvarUsuario?acao=delete&user=${user.id}"> <img
 														width="20px" height="20px" alt="Excluir" title="Excluir"

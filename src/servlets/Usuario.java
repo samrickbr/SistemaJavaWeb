@@ -188,6 +188,7 @@ public class Usuario extends HttpServlet {
 	}
 
 	// ==========================================================================
+	@SuppressWarnings("static-access")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -294,11 +295,6 @@ public class Usuario extends HttpServlet {
 					Part imageFoto = request.getPart("foto");
 					if (imageFoto != null && imageFoto.getInputStream().available() > 0) {
 
-						/*
-						 * byte[] bytesImagem = converteStreamParaByte(imageFoto.getInputStream()); new
-						 * Base64(); String fotoBase64 = Base64.encodeBase64String(bytesImagem);
-						 */
-
 						String fotoBase64 = new Base64()
 								.encodeBase64String(converteStreamParaByte(imageFoto.getInputStream()));
 
@@ -328,20 +324,19 @@ public class Usuario extends HttpServlet {
 						/* Salva no DB */
 						usuario.setFotoBase64Miniatura(miniaturaBase64);
 						/* Fim c�digo miniaturiza��o de imagem */
+
 					} else {
-						usuario.setFotoBase64(request.getParameter("fotoTemp"));
-						usuario.setContentType(request.getParameter("contentTypeTemp"));
+						usuario.setAtualizarImagem(false);
 					}
+
 					Part curriculoPdf = request.getPart("curriculo");
 					if (curriculoPdf != null && curriculoPdf.getInputStream().available() > 0) {
-						new Base64();
-						String curriculoBase64 = Base64
+						String curriculoBase64 = new Base64()
 								.encodeBase64String(converteStreamParaByte(curriculoPdf.getInputStream()));
 						usuario.setCurriculoBase64(curriculoBase64);
 						usuario.setContentTypeCurriculo(curriculoPdf.getContentType());
 					} else {
-						usuario.setCurriculoBase64(request.getParameter("curriculoTemp"));
-						usuario.setContentTypeCurriculo(request.getParameter("contentTypeTempCurriculo"));
+						usuario.setAtualizarPdf(false);
 					}
 
 				}
@@ -371,7 +366,7 @@ public class Usuario extends HttpServlet {
 				// caso passe pela valida��o, cadastra o novo usu�rio
 
 				if (id == null || id.isEmpty() && daoUsuario.validarLogin(login) && podeValidar) {
-					daoUsuario.salvar(usuario);
+					daoUsuario.salvar(usuario);	
 					msg.append("Usuário Cadastrado com sucesso! \n");
 				} else if (id != null && !id.isEmpty() && podeValidar) {
 
