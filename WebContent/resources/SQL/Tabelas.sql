@@ -17,14 +17,28 @@ CREATE TABLE usuario(
   CONSTRAINT user_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE produto(
-codigo BIGSERIAL NOT NULL,
-barras BIGINT,
-nome character varying(255),
-preco FLOAT,
-estoque FLOAT,
-CONSTRAINT prod_pkey PRIMARY KEY (codigo)
+CREATE SEQUENCE produto_id_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;
+
+ALTER SEQUENCE produto_id_seq
+    OWNER TO postgres;
+
+CREATE TABLE IF NOT EXISTS produto
+(
+	barras bigint,
+    id bigint NOT NULL DEFAULT nextval('produto_id_seq'::regclass),
+    nome character varying(255) COLLATE pg_catalog."default",
+    preco double precision,
+    estoque double precision,
+    CONSTRAINT prod_pkey PRIMARY KEY (id)
 );
+
+ALTER TABLE public.produto
+    OWNER to postgres;
 
 CREATE TABLE telefone(
   id BIGSERIAL NOT NULL,
