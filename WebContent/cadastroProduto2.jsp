@@ -9,20 +9,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Cadastro de Produto</title>
 
-<!-- 
-<script src="resources/javascript/jquery.min.js" type="text/javascript"></script>
-<script src="resources/javascript/jquery.maskMoney.min.js"
-	type="text/javascript"></script>
-<link rel="stylesheet" href="resources/css/tabela.css">
-<link rel="stylesheet" href="resources/css/estilo/bootstrap.min.css">
-<link rel="stylesheet" href="resources/css/estilo/font-awesome.min.css">
-<link rel="stylesheet" href="resources/css/estilo/magnific-popup.css">
-<link rel="stylesheet" href="resources/css/estilo/owl.theme.css">
-<link rel="stylesheet" href="resources/css/estilo/owl.carousel.css">
-<link rel="stylesheet" href="resources/css/estilo/tooplate-style.css">
-<link rel="stylesheet" href="resources/css/tabela.css">
- -->
-
 </head>
 <body>
 
@@ -45,6 +31,16 @@
 								<label for="id" class="label label-default">ID:</label> <input
 									type="text" class="form-control" id="id" readonly="readonly"
 									name="id" value="${prod.id} ">
+							</div>
+							
+							<div class="col-md-6 col-sm-6" align="left">
+								<label for="ativo" class="label label-default">ATIVO:</label> <br>
+								<label class="btn btn-outline-primary; col-md-6 col-sm-6"
+									for="ativo"
+									style="background-color: window; font: bold; color: black;">
+									<input alt="ATIVO" type="checkbox" class="btn-check" id="ativo"
+									name="ativo" value=""> CADASTRO ATIVO
+								</label>
 							</div>
 							<br /> <br /> <br />
 							<div class="col-md-6 col-sm-6">

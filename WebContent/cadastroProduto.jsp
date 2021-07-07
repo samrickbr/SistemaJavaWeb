@@ -1,4 +1,5 @@
 <!DOCTYPE html >
+<%@page import="beans.BeanProduto"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
@@ -46,6 +47,25 @@
 									type="text" class="form-control" id="id" readonly="readonly"
 									name="id" value="${prod.id} ">
 							</div>
+							<div class="col-md-6 col-sm-6">
+								<label for="ativo" class="label label-default">ATIVO:</label> <br>
+								<label class="btn btn-outline-primary; col-md-6 col-sm-6"
+									for="ativo"
+									style="background-color: window; font: bold; color: black;">
+									<input type="checkbox" class="btn-check" id="ativo"
+									name="ativo"
+									<%if (request.getAttribute("prod") != null) {
+	BeanProduto produtos = (BeanProduto) request.getAttribute("prod");
+	if (produtos.isAtivo()) {
+		out.print(" ");
+		out.print("checked=\"checked\"");
+		out.print(" ");
+	}
+}%>>
+									CADASTRO ATIVO
+								</label>
+							</div>
+
 							<br /> <br /> <br />
 							<div class="col-md-6 col-sm-6">
 								<label for="nome" class="label label-default">NOME:</label> <input
@@ -54,9 +74,9 @@
 							</div>
 
 							<div class="col-md-6 col-sm-6">
-								<label for="codigo" class="label label-default">CÓDIGO:</label>
-								<input type="number" class="form-control" id="codigo"
-									name="codigo" maxlength="25" value="${prod.codigo}"
+								<label for="barras" class="label label-default">CÓDIGO:</label>
+								<input type="text" class="form-control" id="barras"
+									name="barras" maxlength="15" value="${prod.barras} "
 									required="required" placeholder="Código">
 							</div>
 							<br /> <br /> <br />
@@ -71,18 +91,11 @@
 							<div class="col-md-6 col-sm-6">
 								<label for="estoque" class="label label-default">ESTOQUE:</label>
 								<input type="text" class="form-control" id="estoque"
-									maxlength="10" name="estoque" data-precision="3" value="${prod.estoqueTexto}"
-									required="required" placeholder="Estoque">
-							</div>
-
-							<div>
-								<label>Teste</label>
-							</div>
-							<div>
-								<input type="text" id="teste">
+									maxlength="10" name="estoque" data-precision="3"
+									value="${prod.estoqueTexto}" required="required"
+									placeholder="Estoque">
 							</div>
 							<br /> <br />
-
 							<pre
 								style="color: orange; background-color: transparent; border: thin; font-size: medium;">${msg }</pre>
 
@@ -123,7 +136,7 @@
 											<tr align="center">
 												<td style="width: 50px"><c:out value="${prod.id}"></c:out></td>
 												<td style="width: 100px"><c:out value="${prod.nome}"></c:out></td>
-												<td style="width: 100px"><c:out value="${prod.codigo}"></c:out></td>
+												<td style="width: 100px"><c:out value="${prod.barras}"></c:out></td>
 												<td style="width: 100px">R$ <fmt:formatNumber
 														type="number" minFractionDigits="2" value="${prod.preco}" />
 												</td>
@@ -137,7 +150,8 @@
 												<td style="width: 50px"><a
 													href="salvarProduto?acao=delete&prod=${prod.id}"><img
 														width="20px" height="20px" alt="Excluir" title="Excluir"
-														src="resources/img/excluir.png"></a></td>
+														src="resources/img/excluir.png"
+														onclick="return confirm('Confirmar a exclusão?');"></a></td>
 											</tr>
 										</c:forEach>
 									</table>
@@ -162,7 +176,7 @@
 				} else if (document.getElementById("estoque").value == '') {
 					alert("O campo \"ESTOQUE\" não pode ser vazio.\n");
 					return false;
-				} else if (document.getElementById("codigo").value == '') {
+				} else if (document.getElementById("barras").value == '') {
 					alert("O campo \"CÓDIGO\" não pode ser vazio.\n");
 					return false;
 				}
@@ -180,8 +194,14 @@
 		});
 		$('#estoque').maskMoney({
 			thousands : '.',
-			decimal : ',', 
+			decimal : ',',
 		});
-	})
+	});
+
+	$(document).ready(function() {
+		$("#barras").keyup(function() {
+			$("#barras").val(this.value.match(/[0-9]*/));
+		});
+	});
 </script>
 </html>

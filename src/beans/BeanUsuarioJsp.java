@@ -18,10 +18,19 @@ public class BeanUsuarioJsp {
 	private String tempFotoUser;
 	private String curriculoBase64;
 	private String contentTypeCurriculo;
+	private boolean ativo;
 	
 	private boolean atualizarImagem = true;
 	private boolean atualizarPdf = true;
 	
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
+
 	public boolean isAtualizarImagem() {
 		return atualizarImagem;
 	}

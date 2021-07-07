@@ -44,7 +44,7 @@ public class Produto extends HttpServlet {
 
 			} catch (Exception e) {
 				e.printStackTrace();
-				request.setAttribute("msg", "Não foi possível deletar o produto selecionado.");
+				request.setAttribute("msg", "NÃ£o foi possÃ­vel deletar o produto selecionado.");
 			}
 
 		} else if (acao.equalsIgnoreCase("editar")) {
@@ -54,13 +54,13 @@ public class Produto extends HttpServlet {
 				// (daoProduto.consultar)
 				BeanProduto produto = daoProduto.consultar(prod);
 
-				// chamar a página para fazer a edição
+				// chamar a pï¿½gina para fazer a ediï¿½ï¿½o
 				RequestDispatcher view = request.getRequestDispatcher("/cadastroProduto.jsp");
 
 				// injetar os dados do obj na pag pelo sufixo (prod.id...)
 				request.setAttribute("prod", produto);
 
-				// carregar a pagina com as requisições
+				// carregar a pagina com as requisiï¿½ï¿½es
 				view.forward(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -115,7 +115,7 @@ public class Produto extends HttpServlet {
 
 			String id = request.getParameter("id").trim();
 			String nome = request.getParameter("nome");
-			String codigo = request.getParameter("codigo");
+			String barras = request.getParameter("barras").trim();
 			String preco = request.getParameter("preco");
 			String estoque = request.getParameter("estoque");
 
@@ -127,15 +127,15 @@ public class Produto extends HttpServlet {
 					msg.append("O nome do produto deve ser informado.\n ");
 					podeValidar = false;
 				}
-				if (codigo == null || codigo.isEmpty()) {
-					msg.append("O código do produto deve ser informado.\n ");
+				if (barras == null || barras.isEmpty()) {
+					msg.append("O cÃ³digo do produto deve ser informado.\n ");
 					podeValidar = false;
 				}
 				if (preco == null || preco.isEmpty()) {
-					msg.append("O preço do produto deve ser informado.\n ");
+					msg.append("O preÃ§o do produto deve ser informado.\n ");
 					podeValidar = false;
 				}
-				if (estoque == null || estoque.isEmpty()) {
+				if (barras == null || estoque.isEmpty()) {
 					msg.append("O estoque do produto deve ser informado.\n ");
 					podeValidar = false;
 				}
@@ -143,8 +143,17 @@ public class Produto extends HttpServlet {
 
 				if (podeValidar) {
 					produto.setId(!id.isEmpty() ? Long.parseLong(id) : null);
+					System.out.println(request.getParameter("ativo"));
+
+					if (request.getParameter("ativo") != null && request.getParameter("ativo").equalsIgnoreCase("on")) {
+						produto.setAtivo(true);
+					} else {
+						produto.setAtivo(false);
+					}
+					
 					produto.setNome(nome);
-					produto.setCodigo(Integer.parseInt(codigo));
+					//produto.setBarras(Integer.parseInt(barras));
+					produto.setBarras(Integer.parseInt(String.valueOf(barras)));
 
 					String valorParse = preco.replace("R$ ", "");
 					valorParse = valorParse.replace(".", "");
@@ -154,22 +163,23 @@ public class Produto extends HttpServlet {
 					String estoqueParse = estoque.replace(".", "");
 					estoqueParse = estoqueParse.replace(",", ".");
 					produto.setEstoque(Float.parseFloat(estoqueParse));
+					
 				}
 				if (id == null || id.isEmpty() // ok
-						&& !daoProduto.validarCodigo(codigo)) {
-					msg.append("Já existe um produto cadastrado com este código.\n"
-							+ "Não é possivel cadastrar o novo produto. ");
+						&& !daoProduto.validarCodigo(barras)) {
+					msg.append("JÃ¡ existe um produto cadastrado com este cÃ³digo.\n"
+							+ "NÃ£o Ã© possivel cadastrar o novo produto. ");
 					podeValidar = false;
 
 				} else if (id != null && !id.isEmpty()
-						&& !daoProduto.validarCodigoUpdate(Integer.parseInt(codigo), Long.parseLong(id))) {
-					msg.append("Já existe um produto cadastrado com este código.\n"
-							+ "Não é possivel atualizar o produto atual. ");
+						&& !daoProduto.validarCodigoUpdate(Integer.parseInt(barras), Long.parseLong(id))) {
+					msg.append("Ja existe um produto cadastrado com este cÃ³digo.\n"
+							+ "NÃ£o Ã© possivel atualizar o produto atual. ");
 					podeValidar = false;
 				}
 
 				if (id == null || id.isEmpty() && podeValidar // ok
-						&& daoProduto.validarCodigo(codigo)) {
+						&& daoProduto.validarCodigo(barras)) {
 					daoProduto.salvar(produto);
 					msg.append("Produto cadastrado com sucesso!.\n ");
 				} else if (id != null && !id.isEmpty() // ok

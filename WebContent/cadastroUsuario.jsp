@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 
+<%@page import="beans.BeanUsuarioJsp"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
@@ -58,6 +59,25 @@
 									type="text" class="form-control" id="id" readonly="readonly"
 									name="id" value="${user.id}">
 							</div>
+							<div class="col-md-6 col-sm-6" align="left">
+								<label for="ativo" class="label label-default">ATIVO:</label> <br>
+								<label class="btn btn-outline-primary; col-md-6 col-sm-6"
+									for="ativo"
+									style="background-color: window; font: bold; color: black;">
+									<input alt="ATIVO" type="checkbox" class="btn-check" id="ativo"
+									name="ativo"
+									<%if (request.getAttribute("user") != null) {
+	BeanUsuarioJsp produtos = (BeanUsuarioJsp) request.getAttribute("user");
+	if (produtos.isAtivo()) {
+		out.print(" ");
+		out.print("checked=\"checked\"");
+		out.print(" ");
+	}
+}%>>
+									CADASTRO ATIVO
+								</label>
+							</div>
+
 							<br /> <br /> <br />
 							<div class="col-md-6 col-sm-6">
 								<label for="nome" class="label label-default"> NOME: </label> <input
@@ -227,7 +247,7 @@
 															src='<c:out value="${user.fotoBase64Miniatura}"></c:out>'>
 													</a></td>
 												</c:if>
-												<c:if test="${user.fotoBase64Miniatura.isEmpty() == true}">
+												<c:if test="${user.fotoBase64Miniatura == null}">
 													<td><img width="32px" height="32px" alt="Imagem User"
 														src="resources/img/user.jpg"></td>
 												</c:if>
@@ -239,7 +259,7 @@
 															src="resources/img/pdf.png">
 													</a></td>
 												</c:if>
-												<c:if test="${user.curriculoBase64.isEmpty() == true}">
+												<c:if test="${user.curriculoBase64 == null}">
 													<td><img width="32px" height="32px" alt="Curriculo"
 														src="resources/img/semPdf.png"></td>
 												</c:if>
@@ -259,7 +279,8 @@
 												<td style="width: 50px"><a
 													href="salvarUsuario?acao=delete&user=${user.id}"> <img
 														width="20px" height="20px" alt="Excluir" title="Excluir"
-														src="resources/img/excluir.png"></a></td>
+														src="resources/img/excluir.png"
+														onclick="return confirm('Confirmar a exclusão? ');"></a></td>
 											</tr>
 										</c:forEach>
 									</table>
@@ -306,17 +327,6 @@
 				if (deletarPdf) {
 					document.getElementById('formUser').action = 'salvarUsuario?acao=delPdf&user=${user.id}';
 					alert("O curriculo foi deletado!");
-					return true;
-				}
-				return false;
-			}
-			//------------------------------------------------------------
-			/* Função para confirmar apagar usuario do cadastro*/
-			function apagarUser() {
-				deletarUser = confirm('Deseja apagar o Usuário?\n\nAção não pode ser desfeita!');
-				if (deletarUser) {
-					document.getElementById('formUser').action = 'salvarUsuario?acao=delete&user=${user.id}';
-					alert("O Usuario foi deletado!");
 					return true;
 				}
 				return false;

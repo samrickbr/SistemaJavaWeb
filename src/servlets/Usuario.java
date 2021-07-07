@@ -285,6 +285,12 @@ public class Usuario extends HttpServlet {
 					usuario.setBairro(bairro);
 					usuario.setCidade(cidade);
 					usuario.setUf(uf);
+
+					if (request.getParameter("ativo") != null && request.getParameter("ativo").equalsIgnoreCase("on")) {
+						usuario.setAtivo(true);
+					} else {
+						usuario.setAtivo(false);
+					}
 				}
 
 				/** Inicio "File Upload" de imagens e PDF */
@@ -366,7 +372,7 @@ public class Usuario extends HttpServlet {
 				// caso passe pela valida��o, cadastra o novo usu�rio
 
 				if (id == null || id.isEmpty() && daoUsuario.validarLogin(login) && podeValidar) {
-					daoUsuario.salvar(usuario);	
+					daoUsuario.salvar(usuario);
 					msg.append("Usuário Cadastrado com sucesso! \n");
 				} else if (id != null && !id.isEmpty() && podeValidar) {
 

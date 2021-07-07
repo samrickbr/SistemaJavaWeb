@@ -10,6 +10,10 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Cadastro de Telefones</title>
+
+<script src="resources/javascript/jquery.min.js" type="text/javascript"></script>
+<script src="resources/javascript/jquery.maskMoney.min.js"
+	type="text/javascript"></script>
 <link rel="stylesheet" href="resources/css/tabela.css">
 <!-- MAIN CSS -->
 
@@ -58,8 +62,9 @@
 							<br /> <br /> <br />
 							<div class="col-md-6 col-sm-6">
 								<label for="numero" class="label label-default">TELEFONE:</label>
-								<input type="number" class="form-control" id="numero" maxlength="11"
-									name="numero" class="field" onblur="validarfone();"
+								<input type="text" class="form-control" id="numero"
+									maxlength="11" name="numero" class="field"
+									onblur="validarfone();"
 									placeholder="TELEFONE (Insira somente números)">
 							</div>
 
@@ -117,6 +122,7 @@
 												<td style="width: 50px"><a
 													href="salvarTelefones?acao=deleteFone&foneId=${fone.id}"><img
 														width="20px" height="20px" alt="Excluir" title="Excluir"
+														onclick="return confirm('Confirmar a exclusão?');"
 														src="resources/img/excluir.png"></a></td>
 
 											</tr>
@@ -167,6 +173,12 @@
 					}
 				}
 			}
+
+			$(document).ready(function() {
+				$("#numero").keyup(function() {
+					$("#numero").val(this.value.match(/[0-9]*/));
+				});
+			});
 		</script>
 	</div>
 

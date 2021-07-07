@@ -9,6 +9,7 @@ CREATE TABLE usuario(
   bairro character varying(255),
   cidade character varying(255),
   uf character varying(255),
+  ativo boolean,
   fotobase64 character varying,
   fotobase64miniatura character varying,
   contenttype character varying(255),
@@ -31,6 +32,7 @@ CREATE TABLE IF NOT EXISTS produto
 (
 	barras bigint,
     id bigint NOT NULL DEFAULT nextval('produto_id_seq'::regclass),
+    ativo boolean,
     nome character varying(255) COLLATE pg_catalog."default",
     preco double precision,
     estoque double precision,

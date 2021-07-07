@@ -25,28 +25,28 @@ public class DaoUsuario {
 		try {
 			StringBuilder sql = new StringBuilder();
 
-			sql.append(" insert into usuario(login, senha, nome, email, cep, rua, bairro, cidade, uf ");
+			sql.append(" insert into usuario(login, senha, nome, email, cep, rua, bairro, cidade, uf, ativo ");
 
 			if (usuario.isAtualizarImagem()) {
-				sql.append(" ,fotobase64, contenttype,");
+				sql.append(", fotobase64, contenttype ");
 			}
 			if (usuario.isAtualizarPdf()) {
-				sql.append(" ,curriculobase64, contenttypecurriculo ");
+				sql.append(", curriculobase64, contenttypecurriculo ");
 			}
 			if (usuario.isAtualizarImagem()) {
-				sql.append(" ,fotobase64Miniatura");
+				sql.append(", fotobase64Miniatura ");
 			}
-			sql.append(" ) values (?, ?, ?, ?, ?, ?, ?, ?, ?");
+			sql.append(") values (?, ?, ?, ?, ?, ?, ?, ?, ?, ? ");
 			if (usuario.isAtualizarImagem()) {
-				sql.append(" , ?, ?");
+				sql.append(", ?, ? ");
 			}
 			if (usuario.isAtualizarPdf()) {
-				sql.append(" , ?, ? ");
+				sql.append(", ?, ? ");
 			}
 			if (usuario.isAtualizarImagem()) {
-				sql.append(" , ?");
+				sql.append(", ? ");
 			}
-			sql.append(" )");
+			sql.append(") ");
 
 			PreparedStatement insert = connection.prepareStatement(sql.toString());
 			insert.setString(1, usuario.getLogin());
@@ -58,27 +58,28 @@ public class DaoUsuario {
 			insert.setString(7, usuario.getBairro());
 			insert.setString(8, usuario.getCidade());
 			insert.setString(9, usuario.getUf());
+			insert.setBoolean(10, usuario.isAtivo());
 
 			if (usuario.isAtualizarImagem()) {
-				insert.setString(10, usuario.getFotoBase64());
-				insert.setString(11, usuario.getContentType());
+				insert.setString(11, usuario.getFotoBase64());
+				insert.setString(12, usuario.getContentType());
 			}
 
 			if (usuario.isAtualizarPdf()) {
 				if (usuario.isAtualizarPdf() && !usuario.isAtualizarImagem()) {
-					insert.setString(10, usuario.getCurriculoBase64());
-					insert.setString(11, usuario.getContentTypeCurriculo());
+					insert.setString(11, usuario.getCurriculoBase64());
+					insert.setString(12, usuario.getContentTypeCurriculo());
 				} else {
-					insert.setString(12, usuario.getCurriculoBase64());
-					insert.setString(13, usuario.getContentTypeCurriculo());
+					insert.setString(13, usuario.getCurriculoBase64());
+					insert.setString(14, usuario.getContentTypeCurriculo());
 				}
 			} else {
 				if (usuario.isAtualizarImagem()) {
-					insert.setString(12, usuario.getFotoBase64Miniatura());
+					insert.setString(13, usuario.getFotoBase64Miniatura());
 				}
 			}
 			if (usuario.isAtualizarImagem() && usuario.isAtualizarPdf()) {
-				insert.setString(14, usuario.getFotoBase64Miniatura());
+				insert.setString(15, usuario.getFotoBase64Miniatura());
 			}
 			insert.execute();
 
@@ -127,6 +128,7 @@ public class DaoUsuario {
 			usuario.setContentType(resultSet.getString("contenttype"));
 			usuario.setCurriculoBase64(resultSet.getString("curriculobase64"));
 			usuario.setContentTypeCurriculo(resultSet.getString("contenttypecurriculo"));
+			usuario.setAtivo(resultSet.getBoolean("ativo"));
 
 			listar.add(usuario);
 		}
@@ -198,7 +200,7 @@ public class DaoUsuario {
 			StringBuilder sql = new StringBuilder();
 
 			sql.append(" update usuario set login = ?, senha = ?, nome = ?, email = ?, ");
-			sql.append(" cep = ?, rua = ?, bairro = ?, cidade = ?, uf = ? ");
+			sql.append(" cep = ?, rua = ?, bairro = ?, cidade = ?, uf = ? , ativo = ?");
 
 			if (usuario.isAtualizarImagem()) {
 				sql.append(" , fotobase64 = ?, contenttype = ? ");
@@ -225,28 +227,29 @@ public class DaoUsuario {
 			update.setString(7, usuario.getBairro());
 			update.setString(8, usuario.getCidade());
 			update.setString(9, usuario.getUf());
+			update.setBoolean(10, usuario.isAtivo());
 
 			if (usuario.isAtualizarImagem()) {
-				update.setString(10, usuario.getFotoBase64());
-				update.setString(11, usuario.getContentType());
+				update.setString(11, usuario.getFotoBase64());
+				update.setString(12, usuario.getContentType());
 			}
 
 			if (usuario.isAtualizarPdf()) {
 				if (usuario.isAtualizarPdf() && !usuario.isAtualizarImagem()) {
-					update.setString(10, usuario.getCurriculoBase64());
-					update.setString(11, usuario.getContentTypeCurriculo());
+					update.setString(11, usuario.getCurriculoBase64());
+					update.setString(12, usuario.getContentTypeCurriculo());
 				} else {
-					update.setString(12, usuario.getCurriculoBase64());
-					update.setString(13, usuario.getContentTypeCurriculo());
+					update.setString(13, usuario.getCurriculoBase64());
+					update.setString(14, usuario.getContentTypeCurriculo());
 				}
 			} else {
 				if (usuario.isAtualizarImagem()) {
-					update.setString(12, usuario.getFotoBase64Miniatura());
+					update.setString(13, usuario.getFotoBase64Miniatura());
 				}
 			}
 			
 			if (usuario.isAtualizarImagem() && usuario.isAtualizarPdf()) {
-				update.setString(14, usuario.getFotoBase64Miniatura());
+				update.setString(15, usuario.getFotoBase64Miniatura());
 			}
 
 			update.executeUpdate();
@@ -287,6 +290,7 @@ public class DaoUsuario {
 			usuario.setContentType(resultSet.getString("contenttype"));
 			usuario.setCurriculoBase64(resultSet.getString("curriculobase64"));
 			usuario.setContentTypeCurriculo(resultSet.getString("contenttypecurriculo"));
+			usuario.setAtivo(resultSet.getBoolean("ativo"));
 
 			return usuario;
 

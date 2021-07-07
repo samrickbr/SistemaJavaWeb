@@ -4,11 +4,18 @@ public class BeanProduto {
 
 	private Long id;
 	private String nome;
-	private Integer codigo;
+	private Integer barras;
 	private float preco;
 	private float estoque;
+	private boolean ativo;
 	
 	
+	public boolean isAtivo() {
+		return ativo;
+	}
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -21,11 +28,11 @@ public class BeanProduto {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public Integer getCodigo() {
-		return codigo;
+	public Integer getBarras() {
+		return barras;
 	}
-	public void setCodigo(Integer codigo) {
-		this.codigo = codigo;
+	public void setBarras(Integer barras) {
+		this.barras = barras;
 	}
 	public float getPreco() {
 		return preco;
@@ -39,7 +46,8 @@ public class BeanProduto {
 	public void setEstoque(float estoque) {
 		this.estoque = estoque;
 	}
-	//estes 2 gets servem para quando editar os produtos a máscara do money não alterar os valores
+	
+	//estes 2 gets servem para quando editar os produtos a mascara do money nï¿½o alterar os valores
 	public String getValorTexto() {
 		return Float.toString(preco).replace('.',',');
 	}
