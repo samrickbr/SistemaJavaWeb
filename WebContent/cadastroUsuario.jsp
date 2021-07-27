@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 
+<%@page import="javax.swing.text.Document"%>
 <%@page import="beans.BeanUsuarioJsp"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
@@ -48,10 +49,8 @@
 						<form action="salvarUsuario" method="POST" id="formUser"
 							class="material-form" id="quoteForm"
 							enctype="multipart/form-data">
-							<br /> <br /> <br />
-
-							<h2 style="color: white; font-weight: 200;">Dados de
-								cadastro:</h2>
+							
+							<h2 style="color: white; font-weight: 200; margin-top: 50%">Dados de cadastro:</h2>
 
 							<br />
 							<div class="col-md-6 col-sm-6">
@@ -65,15 +64,15 @@
 									for="ativo"
 									style="background-color: window; font: bold; color: black;">
 									<input alt="ATIVO" type="checkbox" class="btn-check" id="ativo"
-									name="ativo"
+									name="ativo" checked="checked"
 									<%if (request.getAttribute("user") != null) {
-	BeanUsuarioJsp produtos = (BeanUsuarioJsp) request.getAttribute("user");
-	if (produtos.isAtivo()) {
-		out.print(" ");
-		out.print("checked=\"checked\"");
-		out.print(" ");
-	}
-}%>>
+										BeanUsuarioJsp produtos = (BeanUsuarioJsp) request.getAttribute("user");
+										if (produtos.isAtivo()) {
+											out.print(" ");
+											out.print("checked=\"checked\"");
+											out.print(" ");
+										}
+									}%>>
 									CADASTRO ATIVO
 								</label>
 							</div>
@@ -137,6 +136,106 @@
 									type="text" class="form-control" id="uf" name="uf"
 									maxlength="2" value="${user.uf}" placeholder="Estado">
 							</div>
+
+							<div class="col-md-6 col-sm-6">
+								<label for="sexo" class="label label-default">SEXO:</label> <br>
+								
+								<div style="background-color: window; font: bold; color: black; font-size: medium; border-radius: 3px; padding: 1%;">
+									<input type="radio" name="sexo"
+									<%
+										if(request.getAttribute("user") != null ){
+											BeanUsuarioJsp user = (BeanUsuarioJsp) request.getAttribute("user");
+											if(user.getSexo().equalsIgnoreCase("masculino")){
+												out.print(" ");
+												out.print("checked=\"checked\"");
+												out.print(" ");
+											}
+										}
+									%>
+									 value="masculino"> MASCULINO
+									<input type="radio" name="sexo"
+									<%
+										if(request.getAttribute("user") != null ){
+											BeanUsuarioJsp user = (BeanUsuarioJsp) request.getAttribute("user");
+											if(user.getSexo().equalsIgnoreCase("feminino")){
+												out.print(" ");
+												out.print("checked=\"checked\"");
+												out.print(" ");
+											}
+										}
+									%>
+									 value="feminino" > FEMININO
+									 <input type="radio" name="sexo" checked="checked"
+									<%
+										if(request.getAttribute("user") != null ){
+											BeanUsuarioJsp user = (BeanUsuarioJsp) request.getAttribute("user");
+										if(user.getSexo().equalsIgnoreCase("na")){
+												out.print(" ");
+												out.print("checked=\"checked\"");
+												out.print(" ");
+											}
+										}
+									%>
+									 value="na"> N/A
+								</div>
+							</div>
+							
+							<br /> <br /> <br />
+							
+							<div class="col-md-6 col-sm-6">
+							<label for="perfil" class="label label-default">PERFIL:</label><br>
+							<select id="perfil" name="perfil" style="width: 100%; color: black; font: bold; font-size: large;">
+								<option value="na"
+								<%
+									if(request.getAttribute("user") != null ){
+										BeanUsuarioJsp user = (BeanUsuarioJsp) request.getAttribute("user");
+									if(user.getPerfil().equalsIgnoreCase("na")){
+											out.print(" ");
+											out.print("selected=\"selected\"");
+											out.print(" ");
+										}
+									}
+								%>>--SELECIONE--</option>
+								
+								<option value="administrador"
+								<%
+									if(request.getAttribute("user") != null ){
+										BeanUsuarioJsp user = (BeanUsuarioJsp) request.getAttribute("user");
+									if(user.getPerfil().equalsIgnoreCase("administrador")){
+											out.print(" ");
+											out.print("selected=\"selected\"");
+											out.print(" ");
+										}
+									}
+								%>>ADMINISTRADOR</option>
+								
+								<option value="faturamento"
+								<%
+									if(request.getAttribute("user") != null ){
+										BeanUsuarioJsp user = (BeanUsuarioJsp) request.getAttribute("user");
+									if(user.getPerfil().equalsIgnoreCase("faturamento")){
+											out.print(" ");
+											out.print("selected=\"selected\"");
+											out.print(" ");
+										}
+									}
+								%>>FATURAMENTO</option>
+								
+								<option value="gerente"
+								<%
+									if(request.getAttribute("user") != null ){
+										BeanUsuarioJsp user = (BeanUsuarioJsp) request.getAttribute("user");
+									if(user.getPerfil().equalsIgnoreCase("gerente")){
+											out.print(" ");
+											out.print("selected=\"selected\"");
+											out.print(" ");
+										}
+									}
+								%>>GERENTE</option>
+							</select>
+							
+							</div>
+							
 							<br /> <br /> <br />
 							<div class="col-md-6 col-sm-6">
 								<label for="foto" class="label label-default"> FOTO: </label> <input
@@ -185,12 +284,6 @@
 									</button>
 								</c:if>
 							</div>
-							<!-- 
-							<pre
-								style="color: orange; text-align: center; background-color: transparent; border: thin; font-size: medium;">
-										${msg}
-									</pre>
-							 -->
 							<br>
 							<hr>
 							<h3 align="center" style="color: orange;">${msg}</h3>
@@ -208,15 +301,36 @@
 									<button type="submit" class="form-control" id="cancelar"
 										name="cancelar"
 										onclick="document.getElementById('formUser').action='salvarUsuario?acao=reset'">
-										<span data-hover="Cancelar" style="width: 100%">
+										<span data-hover="Cancelar" style="width: 100%;">
 											Cancelar </span>
 									</button>
-								</div>
+								<br>
+								</div> 
 							</div>
+							<div class="col-md-12 col-sm-12">
+								<hr>
+							</div>
+						</form>				
+				
+						<form method="post" action="servletPesquisa" id="formPesquisa">	
+							<div class="col-md-6 col-sm-6">
+							<br style="width: 80%">
+								<label for="descricaoconsulta" class="label label-default">Descrição: </label> 
+								<input type="text" class="form-control" id="descricaoconsulta" name="descricaoconsulta">
+							</div>
+							<div class="col-md-6 col-sm-6">
+								<div class="section-btn">
+									<button type="submit" class="form-control" id="pesquisar" name="pesquisar">
+									<span data-hover="Pesquisar" style="width: 100%">Pesquisar</span> </button>
+								</div>
+							</div>	
 						</form>
-
-						<br /> <br /> <br /> <br /> <br />
-						<hr>
+						
+						<div class="col-md-12 col-sm-12">
+							<hr>
+							<br>
+						</div>
+	
 						<c:if test="${usuarios.isEmpty() == false}">
 							<div class=" col-md-12 col-sm-12">
 								<div class="table-responsive">

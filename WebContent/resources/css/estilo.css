@@ -9,7 +9,7 @@ html{
 	height: 100%;
 }
 body{
-	&:extend(html);
+	
 	background: radial-gradient(transparent 50%,rgba(0,0,0,.3) 100%),linear-gradient(#D77A6B,#d2c09c 60%,#876d54);
 	font:16px 'Roboto', sans-serif;
 	color: #8e8171;
@@ -139,7 +139,7 @@ nav{
 			background: linear-gradient(@bgclr,darken(@bgclr,5));
 			width: 100%;
 			height: 44px;
-			font-size: 17px;
+			font-size: 37px;
 			text-align: center;
 			line-height: 44px;
 			border-radius: 3px;

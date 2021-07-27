@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.catalina.connector.Request;
+
 import beans.BeanUsuarioJsp;
 import connection.SingleConnection;
 
@@ -25,7 +27,7 @@ public class DaoUsuario {
 		try {
 			StringBuilder sql = new StringBuilder();
 
-			sql.append(" insert into usuario(login, senha, nome, email, cep, rua, bairro, cidade, uf, ativo ");
+			sql.append(" insert into usuario(login, senha, nome, email, cep, rua, bairro, cidade, uf, ativo, sexo, perfil ");
 
 			if (usuario.isAtualizarImagem()) {
 				sql.append(", fotobase64, contenttype ");
@@ -36,7 +38,7 @@ public class DaoUsuario {
 			if (usuario.isAtualizarImagem()) {
 				sql.append(", fotobase64Miniatura ");
 			}
-			sql.append(") values (?, ?, ?, ?, ?, ?, ?, ?, ?, ? ");
+			sql.append(") values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ");
 			if (usuario.isAtualizarImagem()) {
 				sql.append(", ?, ? ");
 			}
@@ -59,27 +61,29 @@ public class DaoUsuario {
 			insert.setString(8, usuario.getCidade());
 			insert.setString(9, usuario.getUf());
 			insert.setBoolean(10, usuario.isAtivo());
+			insert.setString(11, usuario.getSexo());
+			insert.setString(12, usuario.getPerfil());
 
 			if (usuario.isAtualizarImagem()) {
-				insert.setString(11, usuario.getFotoBase64());
-				insert.setString(12, usuario.getContentType());
+				insert.setString(13, usuario.getFotoBase64());
+				insert.setString(14, usuario.getContentType());
 			}
 
 			if (usuario.isAtualizarPdf()) {
 				if (usuario.isAtualizarPdf() && !usuario.isAtualizarImagem()) {
-					insert.setString(11, usuario.getCurriculoBase64());
-					insert.setString(12, usuario.getContentTypeCurriculo());
-				} else {
 					insert.setString(13, usuario.getCurriculoBase64());
 					insert.setString(14, usuario.getContentTypeCurriculo());
+				} else {
+					insert.setString(15, usuario.getCurriculoBase64());
+					insert.setString(16, usuario.getContentTypeCurriculo());
 				}
 			} else {
 				if (usuario.isAtualizarImagem()) {
-					insert.setString(13, usuario.getFotoBase64Miniatura());
+					insert.setString(15, usuario.getFotoBase64Miniatura());
 				}
 			}
 			if (usuario.isAtualizarImagem() && usuario.isAtualizarPdf()) {
-				insert.setString(15, usuario.getFotoBase64Miniatura());
+				insert.setString(17, usuario.getFotoBase64Miniatura());
 			}
 			insert.execute();
 
@@ -99,13 +103,20 @@ public class DaoUsuario {
 	}
 
 	// =============================================================
+	// m�todo para listar o usuario da consulta
+	public List<BeanUsuarioJsp> listar(String descricaoconsulta) throws SQLException {
+		String sql = "select * from usuario where login <> 'admin' and nome like '%"+descricaoconsulta+"%'";
+		return consultarUsuarios(sql);
+	}
+
 	// m�todo para listar todos os usu�rios cadastrados
 	public List<BeanUsuarioJsp> listar() throws Exception {
-		// criar um novo objeto de lista
-		List<BeanUsuarioJsp> listar = new ArrayList<BeanUsuarioJsp>();
-
 		String sql = "select * from usuario where login <> 'admin'";
+	 	return consultarUsuarios(sql);
+	}
 
+	private List<BeanUsuarioJsp> consultarUsuarios(String sql) throws SQLException {
+		List<BeanUsuarioJsp> listar = new ArrayList<BeanUsuarioJsp>();
 		PreparedStatement statement = connection.prepareStatement(sql);
 		ResultSet resultSet = statement.executeQuery();
 
@@ -129,6 +140,8 @@ public class DaoUsuario {
 			usuario.setCurriculoBase64(resultSet.getString("curriculobase64"));
 			usuario.setContentTypeCurriculo(resultSet.getString("contenttypecurriculo"));
 			usuario.setAtivo(resultSet.getBoolean("ativo"));
+			usuario.setSexo(resultSet.getString("sexo"));
+			usuario.setPerfil(resultSet.getString("perfil"));
 
 			listar.add(usuario);
 		}
@@ -200,7 +213,7 @@ public class DaoUsuario {
 			StringBuilder sql = new StringBuilder();
 
 			sql.append(" update usuario set login = ?, senha = ?, nome = ?, email = ?, ");
-			sql.append(" cep = ?, rua = ?, bairro = ?, cidade = ?, uf = ? , ativo = ?");
+			sql.append(" cep = ?, rua = ?, bairro = ?, cidade = ?, uf = ? , ativo = ?, sexo = ?, perfil = ?");
 
 			if (usuario.isAtualizarImagem()) {
 				sql.append(" , fotobase64 = ?, contenttype = ? ");
@@ -228,28 +241,30 @@ public class DaoUsuario {
 			update.setString(8, usuario.getCidade());
 			update.setString(9, usuario.getUf());
 			update.setBoolean(10, usuario.isAtivo());
+			update.setString(11, usuario.getSexo());
+			update.setString(12, usuario.getPerfil());
 
 			if (usuario.isAtualizarImagem()) {
-				update.setString(11, usuario.getFotoBase64());
-				update.setString(12, usuario.getContentType());
+				update.setString(13, usuario.getFotoBase64());
+				update.setString(14, usuario.getContentType());
 			}
 
 			if (usuario.isAtualizarPdf()) {
 				if (usuario.isAtualizarPdf() && !usuario.isAtualizarImagem()) {
-					update.setString(11, usuario.getCurriculoBase64());
-					update.setString(12, usuario.getContentTypeCurriculo());
-				} else {
 					update.setString(13, usuario.getCurriculoBase64());
 					update.setString(14, usuario.getContentTypeCurriculo());
+				} else {
+					update.setString(15, usuario.getCurriculoBase64());
+					update.setString(16, usuario.getContentTypeCurriculo());
 				}
 			} else {
 				if (usuario.isAtualizarImagem()) {
-					update.setString(13, usuario.getFotoBase64Miniatura());
+					update.setString(15, usuario.getFotoBase64Miniatura());
 				}
 			}
 			
 			if (usuario.isAtualizarImagem() && usuario.isAtualizarPdf()) {
-				update.setString(15, usuario.getFotoBase64Miniatura());
+				update.setString(17, usuario.getFotoBase64Miniatura());
 			}
 
 			update.executeUpdate();
@@ -291,6 +306,8 @@ public class DaoUsuario {
 			usuario.setCurriculoBase64(resultSet.getString("curriculobase64"));
 			usuario.setContentTypeCurriculo(resultSet.getString("contenttypecurriculo"));
 			usuario.setAtivo(resultSet.getBoolean("ativo"));
+			usuario.setSexo(resultSet.getString("sexo"));
+			usuario.setPerfil(resultSet.getString("perfil"));
 
 			return usuario;
 
@@ -344,7 +361,7 @@ public class DaoUsuario {
 		PreparedStatement preparedStatement = connection.prepareStatement(sql);
 		ResultSet resultSet = preparedStatement.executeQuery();
 
-		if (resultSet.next()) {
+		if (resultSet.next()) { 
 
 			return resultSet.getInt("qtd") <= 0;/*
 												 * se n�o existir um login igual o count retorna '0' e o return tendo

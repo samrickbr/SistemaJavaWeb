@@ -1347,7 +1347,7 @@ body {
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 14px;
 	line-height: 1.42857143;
-	color: #333;
+	color: #666;
 	background-color: #fff
 }
 
@@ -1413,7 +1413,7 @@ img {
 hr {
 	margin-top: 20px;
 	margin-bottom: 20px;
-	border: 0;
+	border: 500;
 	border-top: 1px solid #eee
 }
 

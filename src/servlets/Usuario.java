@@ -252,6 +252,8 @@ public class Usuario extends HttpServlet {
 			String bairro = request.getParameter("bairro");
 			String cidade = request.getParameter("cidade");
 			String uf = request.getParameter("uf");
+			String sexo = request.getParameter("sexo"); 
+			String perfil = request.getParameter("perfil");
 
 			try {
 
@@ -285,6 +287,8 @@ public class Usuario extends HttpServlet {
 					usuario.setBairro(bairro);
 					usuario.setCidade(cidade);
 					usuario.setUf(uf);
+					usuario.setSexo(sexo);
+					usuario.setPerfil(perfil);
 
 					if (request.getParameter("ativo") != null && request.getParameter("ativo").equalsIgnoreCase("on")) {
 						usuario.setAtivo(true);

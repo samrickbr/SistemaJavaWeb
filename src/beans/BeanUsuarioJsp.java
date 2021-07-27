@@ -23,6 +23,24 @@ public class BeanUsuarioJsp {
 	private boolean atualizarImagem = true;
 	private boolean atualizarPdf = true;
 	
+	private String sexo;
+	private String perfil;
+	
+	public void setPerfil(String perfil) {
+		this.perfil = perfil;
+	}
+	public String getPerfil() {
+		return perfil;
+	}
+	
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
+	}
+	
+	public String getSexo() {
+		return sexo;
+	}
+	
 	public boolean isAtivo() {
 		return ativo;
 	}
