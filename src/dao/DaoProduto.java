@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import beans.BeanCategoria;
 import beans.BeanProduto;
 import connection.SingleConnection;
 
@@ -21,7 +22,7 @@ public class DaoProduto {
 	// ===========================================================
 	public void salvar(BeanProduto produto) {
 
-		String sql = "INSERT INTO produto (nome, barras, preco, estoque, ativo) VALUES (?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO produto (nome, barras, preco, estoque, ativo, categoria_id) VALUES (?, ?, ?, ?, ?, ?)";
 		try {
 			PreparedStatement insert = connection.prepareStatement(sql);
 			insert.setString(1, produto.getNome());
@@ -29,6 +30,7 @@ public class DaoProduto {
 			insert.setFloat(3, produto.getPreco());
 			insert.setFloat(4, produto.getEstoque());
 			insert.setBoolean(5, produto.isAtivo());
+			insert.setLong(6, produto.getCategoria_id());
 			insert.execute();
 
 			connection.commit();
@@ -42,7 +44,7 @@ public class DaoProduto {
 			}
 		}
 	}
-	
+
 	// ===========================================================
 	public List<BeanProduto> listar() throws Exception {
 
@@ -60,12 +62,34 @@ public class DaoProduto {
 			produto.setPreco(resultSet.getFloat("preco"));
 			produto.setEstoque(resultSet.getFloat("estoque"));
 			produto.setAtivo(resultSet.getBoolean("ativo"));
+			produto.setCategoria_id(resultSet.getLong("categoria_id"));
 
 			listar.add(produto);
 
 		}
 
 		return listar;
+	}
+
+	// ===========================================================
+
+	public List<BeanCategoria> listaCategorias() throws Exception {
+
+		List<BeanCategoria> retorno = new ArrayList<BeanCategoria>();
+
+		String sql = "select * from categoria";
+		PreparedStatement statement = connection.prepareStatement(sql);
+		ResultSet resultSet = statement.executeQuery();
+
+		while (resultSet.next()) {
+			BeanCategoria categoria = new BeanCategoria();
+			categoria.setId(resultSet.getLong("id"));
+			categoria.setNome(resultSet.getString("nome"));
+
+			retorno.add(categoria);
+
+		}
+		return retorno;
 	}
 
 	// ===========================================================
@@ -83,7 +107,7 @@ public class DaoProduto {
 			produto.setPreco(resultSet.getFloat("preco"));
 			produto.setEstoque(resultSet.getFloat("estoque"));
 			produto.setAtivo(resultSet.getBoolean("ativo"));
-
+			produto.setCategoria_id(resultSet.getLong("categoria_id"));
 			return produto;
 
 		} else {
@@ -111,8 +135,7 @@ public class DaoProduto {
 
 	// ===========================================================
 	public boolean validarCodigo(String barras) throws Exception {
-		String sql = "select count(1) as qtd from produto where barras = '"
-				+ barras + " '";
+		String sql = "select count(1) as qtd from produto where barras = '" + barras + " '";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		ResultSet resultSet = statement.executeQuery();
 
@@ -123,10 +146,8 @@ public class DaoProduto {
 	}
 
 	// ===========================================================
-	public boolean validarCodigoUpdate(Integer barras, Long id)
-			throws Exception {
-		String sql = "select count(1) as qtd from produto where barras = "
-				+ barras + " and id <> " + id;
+	public boolean validarCodigoUpdate(Integer barras, Long id) throws Exception {
+		String sql = "select count(1) as qtd from produto where barras = " + barras + " and id <> " + id;
 		PreparedStatement statement = connection.prepareStatement(sql);
 		ResultSet resultSet = statement.executeQuery();
 
@@ -139,7 +160,7 @@ public class DaoProduto {
 	// ===========================================================
 	public void editar(BeanProduto produto) {
 		try {
-			String sql = "update produto set nome = ?, barras = ?, preco = ?, estoque = ?, ativo = ? where id = "
+			String sql = "update produto set nome = ?, barras = ?, preco = ?, estoque = ?, ativo = ?, categoria_id = ? where id = "
 					+ produto.getId();
 			PreparedStatement update = connection.prepareStatement(sql);
 
@@ -148,6 +169,7 @@ public class DaoProduto {
 			update.setFloat(3, produto.getPreco());
 			update.setFloat(4, produto.getEstoque());
 			update.setBoolean(5, produto.isAtivo());
+			update.setLong(6, produto.getCategoria_id());
 
 			update.executeUpdate();
 			connection.commit();

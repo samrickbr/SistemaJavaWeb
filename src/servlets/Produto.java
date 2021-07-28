@@ -31,64 +31,41 @@ public class Produto extends HttpServlet {
 		String acao = request.getParameter("acao");
 		String prod = request.getParameter("prod");
 
-		if (acao.equalsIgnoreCase("delete")) {
-			try {
-				daoProduto.deletar(Long.parseLong(prod));
-				request.setAttribute("msg", "Produto deletado com sucesso!");
+		try {
+			RequestDispatcher view = request.getRequestDispatcher("/cadastroProduto.jsp");
 
-				RequestDispatcher view = request.getRequestDispatcher("/cadastroProduto.jsp");
+			if (acao.equalsIgnoreCase("delete")) {
+				try {
+					daoProduto.deletar(Long.parseLong(prod));
+					request.setAttribute("msg", "Produto deletado com sucesso!");
 
-				request.setAttribute("produtos", daoProduto.listar());
+					request.setAttribute("produtos", daoProduto.listar());
 
-				view.forward(request, response);
+				} catch (Exception e) {
+					e.printStackTrace();
+					request.setAttribute("msg", "Não foi possível deletar o produto selecionado.");
+				}
 
-			} catch (Exception e) {
-				e.printStackTrace();
-				request.setAttribute("msg", "Não foi possível deletar o produto selecionado.");
-			}
-
-		} else if (acao.equalsIgnoreCase("editar")) {
-			try {
+			} else if (acao.equalsIgnoreCase("editar")) {
 				// criar o objeto a ser editado(beanProduto),
 				// atribuindo os dados do produto pelo dao
 				// (daoProduto.consultar)
 				BeanProduto produto = daoProduto.consultar(prod);
 
-				// chamar a p�gina para fazer a edi��o
-				RequestDispatcher view = request.getRequestDispatcher("/cadastroProduto.jsp");
-
 				// injetar os dados do obj na pag pelo sufixo (prod.id...)
 				request.setAttribute("prod", produto);
 
-				// carregar a pagina com as requisi��es
-				view.forward(request, response);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-		} else if (acao.equalsIgnoreCase("listartodos")) {
-			RequestDispatcher view = request.getRequestDispatcher("/cadastrarProduto.jsp");
-
-			try {
+			} else if (acao.equalsIgnoreCase("listartodos")) {
 				request.setAttribute("produtos", daoProduto.listar());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 
-			view.forward(request, response);
-
-		} else if (acao.equalsIgnoreCase("consultartodos")) {
-			RequestDispatcher view = request.getRequestDispatcher("/cadastroProduto.jsp");
-
-			try {
+			} else if (acao.equalsIgnoreCase("consultartodos")) {
 				request.setAttribute("produtos", daoProduto.listar());
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
-
+			request.setAttribute("categorias", daoProduto.listaCategorias());
 			view.forward(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -118,6 +95,7 @@ public class Produto extends HttpServlet {
 			String barras = request.getParameter("barras").trim();
 			String preco = request.getParameter("preco");
 			String estoque = request.getParameter("estoque");
+			String categoria = request.getParameter("categoria_id");
 
 			try {
 				StringBuilder msg = new StringBuilder();
@@ -139,20 +117,21 @@ public class Produto extends HttpServlet {
 					msg.append("O estoque do produto deve ser informado.\n ");
 					podeValidar = false;
 				}
+
 				BeanProduto produto = new BeanProduto();
 
 				if (podeValidar) {
 					produto.setId(!id.isEmpty() ? Long.parseLong(id) : null);
-					System.out.println(request.getParameter("ativo"));
+					produto.setCategoria_id(Long.parseLong(categoria));
 
 					if (request.getParameter("ativo") != null && request.getParameter("ativo").equalsIgnoreCase("on")) {
 						produto.setAtivo(true);
 					} else {
 						produto.setAtivo(false);
 					}
-					
+
 					produto.setNome(nome);
-					//produto.setBarras(Integer.parseInt(barras));
+					// produto.setBarras(Integer.parseInt(barras));
 					produto.setBarras(Integer.parseInt(String.valueOf(barras)));
 
 					String valorParse = preco.replace("R$ ", "");
@@ -163,7 +142,7 @@ public class Produto extends HttpServlet {
 					String estoqueParse = estoque.replace(".", "");
 					estoqueParse = estoqueParse.replace(",", ".");
 					produto.setEstoque(Float.parseFloat(estoqueParse));
-					
+
 				}
 				if (id == null || id.isEmpty() // ok
 						&& !daoProduto.validarCodigo(barras)) {
@@ -199,6 +178,7 @@ public class Produto extends HttpServlet {
 				RequestDispatcher view = request.getRequestDispatcher("/cadastroProduto.jsp");
 
 				request.setAttribute("produtos", daoProduto.listar());
+				request.setAttribute("categorias", daoProduto.listaCategorias());
 				view.forward(request, response);
 
 			} catch (Exception e) {

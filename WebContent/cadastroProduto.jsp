@@ -65,6 +65,21 @@
 									CADASTRO ATIVO
 								</label>
 							</div>
+							
+							<br /> <br /> <br />
+							<div class="col-md-6 col-sm-6">
+								<label for="categoria" class="label label-default">CATEGORIA:</label> <br>
+								<select id="categorias" name="categoria_id" style="font-size: large; width: 100%; color: black;">
+								<c:forEach items="${categorias}" var="cat">
+									<option value="${cat.id}" id="${cat.id}"
+										<c:if test="${cat.id == prod.categoria_id}">
+											<c:out value="selected=selected" />
+										</c:if>>
+										${cat.nome}
+									</option>								
+								</c:forEach>
+								</select>
+							</div>
 
 							<br /> <br /> <br />
 							<div class="col-md-6 col-sm-6">
